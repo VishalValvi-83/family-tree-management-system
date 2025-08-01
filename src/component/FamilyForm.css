@@ -1,0 +1,45 @@
+form {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e30000;
+    background-color: aliceblue;
+    color: rgb(30, 30, 30);
+    padding: 20px;
+    border-radius: 8px;
+    gap: 15px;
+    margin-top: 2pc;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-fields-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #e30000;
+    color: #fff;
+    border: none;
+    width: 250px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
