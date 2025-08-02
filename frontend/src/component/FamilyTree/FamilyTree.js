@@ -4,7 +4,7 @@ import './FamilyTree.css'
 
 const FamilyTree = () => {
     const [members, setMembers] = useState([])
-
+    const [loading, setLoading] = useState(true)
     const getFamilyTree = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-all-members`);
@@ -16,15 +16,17 @@ const FamilyTree = () => {
     }
 
     useEffect(() => {
-        getFamilyTree()
-
+        setTimeout(() => {
+            getFamilyTree()
+            setLoading(false)
+        }, 1000);
     }, [])
     console.log(members)
     return (
         <div className="family-tree-box">
             <h2 className="heading">Family Tree</h2>
             <div className="family-tree">
-                {members ? (members?.map(member => (
+                {!loading ? (members?.map(member => (
                     <div key={member._id} className={`family-tree-member ${member.gender === 'male' ? 'father' : 'mother'}`}>
                         <div className="family-tree-member-name">{member.name}</div>
                         <p className="member-role">
