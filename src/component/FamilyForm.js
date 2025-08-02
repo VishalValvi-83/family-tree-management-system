@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import './FamilyForm.css';
+import axios from 'axios';
 
 function FamilyForm() {
+
     const [formData, setFormData] = useState({
         name: '',
         age: '',
         dob: '',
         gender: '',
-        relation: ''
+        relation: '',
+        relatedToName: '',
     });
 
     const handleChange = (e) => {
@@ -18,9 +21,19 @@ function FamilyForm() {
         }));
     };
 
+    const addFamilyMember = async () => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/add-member`, formData);
+            console.log(response);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(formData);
+        addFamilyMember();
     };
 
     return (
@@ -92,6 +105,42 @@ function FamilyForm() {
                     <option value="child">Child</option>
                     <option value="sibling">Sibling</option>
                 </select>
+            </div>
+
+            <div className="form-fields">
+                {
+                    (formData.relation === 'child' && (
+                        <div>
+                            <label htmlFor="relatedToName">Father's or Mother's Name:</label>
+                            <input
+                                type="text"
+                                id="relatedToName"
+                                name="relatedToName"
+                                placeholder="Enter father's or mother's name"
+                                value={formData.relatedToName}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                    ))
+
+                    || (
+                        formData.relation === 'sibling' && (
+                            <div>
+                                <label htmlFor="relatedToName">Sibling's Name:</label>
+                                <input
+                                    type="text"
+                                    id="relatedToName"
+                                    name="relatedToName"
+                                    placeholder="Enter sibling's name"
+                                    value={formData.relatedToName}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                        )
+                    )
+                }
             </div>
 
             <button type="submit">Submit</button>
