@@ -1,14 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Carattere&family=Fascinate&display=swap');
+
 .container {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    /* 2 parts tree, 1 part form */
     gap: 20px;
     min-width: 1200px;
     margin: 18px auto;
     padding: 10px;
     padding-top: 50px;
     align-items: start;
-    /* align items at top */
     height: 100%;
     transition: height 0.3s cubic-bezier(0.84, 0.29, 1, 1);
+}
+
+.header {
+    text-align: center;
+}
+
+.header img {
+    width: 50px;
+    height: auto;
+    vertical-align: middle;
+    margin-top: -20px;
+    margin-right: 5px ;
+}
+
+.header p {
+    color: #fded75;
+    font-family: "Fascinate", system-ui;
+    font-size: 40px;
+    display: inline-block;
+}
+
+.header span {
+    font-family: "Carattere", cursive;
+    font-weight: 400;
+    font-style: normal;
+
 }
