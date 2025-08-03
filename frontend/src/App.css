@@ -1,11 +1,14 @@
 .container {
-    min-width: 1200px;
-    margin: 0 auto;
-    padding: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    height: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    /* 2 parts tree, 1 part form */
     gap: 20px;
-    justify-content: space-between;
-    transition: height 0.3s cubic-bezier(0.84, 0.29, 1, 1)
+    min-width: 1200px;
+    margin: 18px auto;
+    padding: 10px;
+    padding-top: 50px;
+    align-items: start;
+    /* align items at top */
+    height: 100%;
+    transition: height 0.3s cubic-bezier(0.84, 0.29, 1, 1);
 }

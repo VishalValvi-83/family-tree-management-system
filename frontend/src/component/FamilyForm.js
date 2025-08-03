@@ -1,17 +1,33 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './FamilyForm.css';
 import axios from 'axios';
 
 function FamilyForm() {
-
+    const [members, setMembers] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
         age: '',
-        dob: '',
+        dateOfBirth: '',
         gender: '',
         relation: '',
         relatedToName: '',
     });
+
+    const getFamilyTree = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-all-members`);
+            const data = response.data.data;
+            setMembers(data);
+        } catch (error) {
+            console.error("Error fetching family tree:", error)
+        }
+    }
+
+    useEffect(() => {
+        setTimeout(() => {
+            getFamilyTree()
+        }, 1000);
+    }, [])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,10 +40,20 @@ function FamilyForm() {
     const addFamilyMember = async () => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/add-member`, formData);
-            console.log(response);
-
+            // console.log(response);
+            alert(response.data.message);
+            setFormData(
+                {
+                    name: '',
+                    age: '',
+                    dateOfBirth: '',
+                    gender: '',
+                    relation: '',
+                    relatedToName: '',
+                }
+            )
         } catch (error) {
-            console.error(error);
+            alert(error.message);
         }
     };
     const handleSubmit = (e) => {
@@ -67,9 +93,9 @@ function FamilyForm() {
                     <label htmlFor="dob">Date of Birth:</label>
                     <input
                         type="date"
-                        id="dob"
-                        name="dob"
-                        value={formData.dob}
+                        id="dateOfBirth"
+                        name="dateOfBirth"
+                        value={formData.dateOfBirth}
                         onChange={handleChange}
                         required
                     />
@@ -83,7 +109,7 @@ function FamilyForm() {
                         value={formData.gender}
                         onChange={handleChange}
                     >
-                        <option value="" disabled>Select gender</option>
+                        <option disabled>Select gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
@@ -142,6 +168,23 @@ function FamilyForm() {
                     )
                 }
             </div>
+
+            {/* <div className="form-fields">
+                <label>Related To:</label>
+                {members?.map((member, index) => (
+                    <div key={index}>
+                        <input
+                            type="radio"
+                            id={member.name}
+                            name="relatedToName"
+                            value={member.name}
+                            onChange={handleChange}
+                            required
+                        />
+                        <label htmlFor={member.name}>{member.name}</label>
+                    </div>
+                ))}
+            </div> */}
 
             <button type="submit">Submit</button>
         </form>

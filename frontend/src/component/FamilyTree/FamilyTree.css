@@ -1,24 +1,25 @@
 .family-tree-box {
-    width: 30%;
     padding: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    color: black;
     border-radius: 10px;
     background-color: #f2f2f2;
     border: 1px solid #e3e3e3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: black;
     transition: height 0.3s ease;
+    width: 100%;
 }
 
 .family-tree-box>h2 {
     margin-bottom: 10px;
     text-align: center;
-    transition: all 0.3s ease;
-
+    font-size: 1.5rem;
 }
 
 .family-tree {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* flex-direction: column; */
     align-items: center;
     margin: 2rem auto;
     padding: 1rem;
@@ -26,8 +27,6 @@
     border-radius: 12px;
     max-width: 800px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-
 }
 
 .family-tree-member {
@@ -37,75 +36,64 @@
     border-radius: 10px;
     padding: 12px 20px;
     margin: 10px 0;
+    min-width: 200px;
     text-align: center;
-    width: fit-content;
-    min-width: 150px;
     transition: transform 0.2s ease;
-    transition: all 0.3s ease;
-
 }
 
 .family-tree-member:hover {
     transform: scale(1.05);
-    transition: all 0.3s ease;
-
 }
 
 .family-tree-member.father {
     border-color: #4a90e2;
     background-color: #e6f0ff;
-    transition: all 0.3s ease;
-
 }
 
 .family-tree-member.mother {
     border-color: #f06292;
     background-color: #ffe6ef;
-    transition: all 0.3s ease;
 }
 
 .family-tree-member-name {
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #101010;
-    transition: all 0.3s ease;
 }
 
-.family-tree-children {
+.relationship-section {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.relationship-section h4 {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 4px;
+}
+
+.relationship-list {
     display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     justify-content: center;
-    gap: 1.5rem;
-    margin-top: 12px;
-    position: relative;
-    transition: all 0.3s ease;
 }
 
-.family-tree-children::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    width: 2px;
-    height: 10px;
-    background-color: #999;
-    transform: translateX(-50%);
-    transition: all 0.3s ease;
+.member-name {
+    font-weight: bold;
+    color: #161616;
 }
 
-.family-tree-children .family-tree-member::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    width: 2px;
-    height: 10px;
-    background-color: #999;
-    transform: translateX(-50%);
-    transition: all 0.3s ease;
+.member-role {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: -4px;
 }
 
 .loading-spinner {
     color: #4a90e2;
     font-size: 1.5rem;
-
+    padding: 1rem;
 }

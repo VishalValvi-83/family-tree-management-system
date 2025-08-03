@@ -32,6 +32,12 @@ export const postFamily = async (req, res) => {
                 message: `Related person '${relatedToName}' not found. Add them first or check the name.`,
             });
         }
+        const existingMember = await Family.findOne({ name });
+        if (existingMember) {
+            return res.status(400).json({
+                message: `Family member with the name '${name}' already exists. Please provide a unique name.`,
+            });
+        }
 
         const newMember = new Family({
             name,
