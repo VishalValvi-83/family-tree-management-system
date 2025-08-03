@@ -10,6 +10,8 @@ function FamilyForm() {
         dateOfBirth: '',
         gender: '',
         relation: '',
+        relatedToFatherName: '',
+        relatedToMotherName: '',
         relatedToName: '',
     });
 
@@ -39,23 +41,36 @@ function FamilyForm() {
 
     const addFamilyMember = async () => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/add-member`, formData);
-            // console.log(response);
+            let payload = {
+                ...formData
+            };
+
+            if (formData.relation === 'child') {
+                payload.relatedToName = '';
+            } else {
+                payload.relatedToFatherName = '';
+                payload.relatedToMotherName = '';
+            }
+
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/add-member`, payload);
             alert(response.data.message);
-            setFormData(
-                {
-                    name: '',
-                    age: '',
-                    dateOfBirth: '',
-                    gender: '',
-                    relation: '',
-                    relatedToName: '',
-                }
-            )
+
+            setFormData({
+                name: '',
+                age: '',
+                dateOfBirth: '',
+                gender: '',
+                relation: '',
+                relatedToFatherName: '',
+                relatedToMotherName: '',
+                relatedToName: '',
+            });
+
         } catch (error) {
             alert(error.message);
         }
     };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(formData);
@@ -70,6 +85,7 @@ function FamilyForm() {
                     type="text"
                     id="name"
                     name="name"
+                    placeholder="Enter your name"
                     value={formData.name}
                     onChange={handleChange}
                     required
@@ -83,6 +99,7 @@ function FamilyForm() {
                         type="number"
                         id="age"
                         name="age"
+                        placeholder="Enter your age"
                         value={formData.age}
                         onChange={handleChange}
                         required
@@ -90,7 +107,7 @@ function FamilyForm() {
                 </div>
 
                 <div className="form-fields">
-                    <label htmlFor="dob">Date of Birth:</label>
+                    <label htmlFor="dateOfBirth">Date of Birth:</label>
                     <input
                         type="date"
                         id="dateOfBirth"
@@ -109,7 +126,7 @@ function FamilyForm() {
                         value={formData.gender}
                         onChange={handleChange}
                     >
-                        <option disabled>Select gender</option>
+                        <option value="" disabled selected>Select gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
@@ -136,19 +153,50 @@ function FamilyForm() {
             <div className="form-fields">
                 {
                     (formData.relation === 'child' && (
-                        <div>
-                            <label htmlFor="relatedToName">Father's or Mother's Name:</label>
-                            <input
-                                type="text"
-                                id="relatedToName"
-                                name="relatedToName"
-                                placeholder="Enter father's or mother's name"
-                                value={formData.relatedToName}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+                        <>
+                            <div className="form-fields">
+                                <label htmlFor="relatedToFatherName">Father's Name:</label>
+                                <input
+                                    type="text"
+                                    id="relatedToFatherName"
+                                    name="relatedToFatherName"
+                                    placeholder="Enter father's name"
+                                    value={formData.relatedToFatherName}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-fields">
+                                <label htmlFor="relatedToMotherName">Mother's Name:</label>
+                                <input
+                                    type="text"
+                                    id="relatedToMotherName"
+                                    name="relatedToMotherName"
+                                    placeholder="Enter mother's name"
+                                    value={formData.relatedToMotherName}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                        </>
                     ))
+                    || (
+                        (formData.relation === 'mother' || formData.relation === 'father') && (
+                            <div>
+                                <label htmlFor="relatedToName">Child's Name:</label>
+                                <input
+                                    type="text"
+                                    id="relatedToName"
+                                    name="relatedToName"
+                                    placeholder="Enter child's name"
+                                    value={formData.relatedToName}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                        )
+                    )
 
                     || (
                         formData.relation === 'sibling' && (
@@ -186,7 +234,7 @@ function FamilyForm() {
                 ))}
             </div> */}
 
-            <button type="submit">Submit</button>
+            <button type="submit"  >Submit</button>
         </form>
     );
 }

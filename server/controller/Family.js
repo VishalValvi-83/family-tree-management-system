@@ -2,7 +2,7 @@ import Family from './../model/Family.js';
 
 export const postFamily = async (req, res) => {
     try {
-        const { name, age, gender, dateOfBirth, relation, relatedToName } = req.body;
+        const { name, age, gender, dateOfBirth, relation, relatedToName, relatedToFatherName, relatedToMotherName } = req.body;
         const totalCount = await Family.countDocuments();
 
         if (totalCount === 0) {
@@ -20,18 +20,20 @@ export const postFamily = async (req, res) => {
             });
         }
 
-        if (!relation || !relatedToName) {
+        if (!relation) {
             return res.status(400).json({
                 message: "Relation and relatedToName are required for linking to existing family",
             });
         }
 
         const relatedPerson = await Family.findOne({ name: relatedToName });
-        if (!relatedPerson) {
-            return res.status(404).json({
-                message: `Related person '${relatedToName}' not found. Add them first or check the name.`,
-            });
-        }
+
+
+        // if (!relatedPerson) {
+        //     return res.status(404).json({
+        //         message: `Related person '${relatedToName}' not found. Add them first or check the name.`,
+        //     });
+        // }
         const existingMember = await Family.findOne({ name });
         if (existingMember) {
             return res.status(400).json({
@@ -46,15 +48,39 @@ export const postFamily = async (req, res) => {
             dateOfBirth: new Date(dateOfBirth),
         });
 
+        if (relation.toLowerCase() === 'child') {
+            const { relatedToFatherName, relatedToMotherName } = req.body;
+
+            const father = relatedToFatherName ? await Family.findOne({ name: relatedToFatherName }) : null;
+            const mother = relatedToMotherName ? await Family.findOne({ name: relatedToMotherName }) : null;
+
+            if (!father && !mother) {
+                return res.status(404).json({
+                    message: `At least one parent must be found. Check the names.`,
+                });
+            }
+
+            if (father) {
+                newMember.father = father._id;
+                father.children.push(newMember._id);
+                await father.save();
+            }
+
+            if (mother) {
+                newMember.mother = mother._id;
+                mother.children.push(newMember._id);
+                await mother.save();
+            }
+
+            await newMember.save();
+
+            return res.status(201).json({
+                message: "Child added successfully with linked parents.",
+                newMember,
+            });
+        }
+
         switch (relation.toLowerCase()) {
-            case 'child':
-                if (relatedPerson.gender === 'male') {
-                    newMember.father = relatedPerson._id;
-                } else if (relatedPerson.gender === 'female') {
-                    newMember.mother = relatedPerson._id;
-                }
-                relatedPerson.children.push(newMember._id);
-                break;
 
             case 'father':
                 newMember.children.push(relatedPerson._id);
