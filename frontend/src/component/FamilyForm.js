@@ -3,7 +3,7 @@ import './FamilyForm.css';
 import axios from 'axios';
 
 function FamilyForm() {
-    const [members, setMembers] = useState([]);
+    // const [members, setMembers] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
         age: '',
@@ -15,21 +15,16 @@ function FamilyForm() {
         relatedToName: '',
     });
 
-    const getFamilyTree = async () => {
-        try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-all-members`);
-            const data = response.data.data;
-            setMembers(data);
-        } catch (error) {
-            console.error("Error fetching family tree:", error)
-        }
-    }
+    // const getFamilyTree = async () => {
+    //     try {
+    //         const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-all-members`);
+    //         const data = response.data.data;
+    //         setMembers(data);
+    //     } catch (error) {
+    //         console.error("Error fetching family tree:", error)
+    //     }
+    // }
 
-    useEffect(() => {
-        setTimeout(() => {
-            getFamilyTree()
-        }, 1000);
-    }, [])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -216,24 +211,6 @@ function FamilyForm() {
                     )
                 }
             </div>
-
-            {/* <div className="form-fields">
-                <label>Related To:</label>
-                {members?.map((member, index) => (
-                    <div key={index}>
-                        <input
-                            type="radio"
-                            id={member.name}
-                            name="relatedToName"
-                            value={member.name}
-                            onChange={handleChange}
-                            required
-                        />
-                        <label htmlFor={member.name}>{member.name}</label>
-                    </div>
-                ))}
-            </div> */}
-
             <button type="submit"  >Submit</button>
         </form>
     );

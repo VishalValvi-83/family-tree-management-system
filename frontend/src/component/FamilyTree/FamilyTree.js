@@ -3,6 +3,7 @@ import axios from 'axios';
 import './FamilyTree.css';
 import updateIcon from './../../assets/updatet-Icon.png'
 import { Link } from 'react-router-dom';
+import deleteIcon from './../../assets/deleteIcon.png'
 
 const FamilyTree = () => {
     const [members, setMembers] = useState([]);
@@ -117,6 +118,10 @@ const FamilyTree = () => {
                                 <img src={updateIcon} alt='edit-tree-icon' />
                             </Link>
                             
+                            <img src={deleteIcon}
+                                className='delete-tree-btn'
+                                // onClick={() => handleDeleteMember(member._id)}
+                                alt='delete-icon' />
                         </div>
                     ))
                 )}
