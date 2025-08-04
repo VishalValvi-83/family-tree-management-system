@@ -4,7 +4,8 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 20px;
-    min-width: 1200px;
+    max-width: 1200px;
+    width: 100%;
     margin: 18px auto;
     padding: 10px;
     padding-top: 50px;
@@ -17,12 +18,12 @@
     text-align: center;
 }
 
-.header img {
+.header-title img {
     width: 50px;
     height: auto;
     vertical-align: middle;
     margin-top: -20px;
-    margin-right: 5px ;
+    margin-right: 5px;
 }
 
 .header p {
@@ -36,5 +37,42 @@
     font-family: "Carattere", cursive;
     font-weight: 400;
     font-style: normal;
+}
 
+@media screen and (max-width: 1200px) {
+    .container {
+        max-width: 95%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        grid-template-columns: min-content;
+        padding-top: 30px;
+    }
+
+    .header p {
+        font-size: 30px;
+    }
+
+    .header-title img {
+        width: 40px;
+        margin-top: -15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 5px;
+        padding-top: 20px;
+    }
+
+    .header p {
+        font-size: 24px;
+    }
+
+    .header-title img {
+        width: 30px;
+        margin-top: -10px;
+    }
 }

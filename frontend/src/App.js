@@ -9,10 +9,10 @@ function App() {
   return (
     <>
       <div className='header'>
-       <div className='header'>
-         <img src={Logo} alt="FamilyRoots logo" aria-label='logo' />
-        <p>FamilyRoots</p>
-       </div>
+        <div className='header-title'>
+          <img src={Logo} alt="FamilyRoots logo" aria-label='logo' />
+          <p>FamilyRoots</p>
+        </div>
         <span>Family Tree Management System</span>
       </div>
       <div className="container">
