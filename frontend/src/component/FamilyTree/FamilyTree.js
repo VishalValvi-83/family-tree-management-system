@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './FamilyTree.css';
+import updateIcon from './../../assets/updatet-Icon.png'
 
 const FamilyTree = () => {
     const [members, setMembers] = useState([]);
@@ -106,12 +107,21 @@ const FamilyTree = () => {
                                             );
                                         })}
                                     </div>
+
                                 </div>
+
                             )}
+                            <div className='edit-tree-btn-container'>
+                                <button className='edit-tree-btn' >
+                                    <img src={updateIcon} alt='edit-tree-icon' />
+                                </button>
+                            </div>
                         </div>
                     ))
                 )}
+
             </div>
+
         </div>
     );
 };
