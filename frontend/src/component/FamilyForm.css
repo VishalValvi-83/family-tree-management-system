@@ -3,7 +3,7 @@ form {
     flex-direction: column;
     border: 1px solid #e30000;
     background-color: aliceblue;
-    color: rgb(30, 30, 30);
+    color: #1e1e1e;
     padding: 20px;
     border-radius: 8px;
     gap: 15px;
@@ -22,7 +22,7 @@ input[type="date"],
 select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 2px solid #bedefa;
     border-radius: 4px;
     font-size: 16px;
 }
@@ -51,4 +51,11 @@ button {
         flex-direction: column;
     }
 
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+        padding: 6px;
+        font-size: 14px;
+    }
 }

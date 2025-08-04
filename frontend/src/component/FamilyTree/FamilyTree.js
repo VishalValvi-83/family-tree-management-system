@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './FamilyTree.css';
 import updateIcon from './../../assets/updatet-Icon.png'
+import { Link } from 'react-router-dom';
 
 const FamilyTree = () => {
     const [members, setMembers] = useState([]);
@@ -112,9 +113,9 @@ const FamilyTree = () => {
 
                             )}
 
-                            <button className='edit-tree-btn' >
+                            <Link to={`/update-tree/${member._id}`} className='edit-tree-btn' >
                                 <img src={updateIcon} alt='edit-tree-icon' />
-                            </button>
+                            </Link>
                             
                         </div>
                     ))

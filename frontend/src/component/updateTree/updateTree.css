@@ -1,0 +1,11 @@
+.update-member-form{
+    margin-top: 50px;
+    width: 450px;
+
+}
+.update-member-form .heading{
+    text-align: center;
+}
+.update-member-form input, select{
+    outline: none;
+}
