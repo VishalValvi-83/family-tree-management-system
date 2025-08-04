@@ -15,6 +15,13 @@ const router = createBrowserRouter([
   {
     path: '/update-tree/:_id',
     element: <UpdateTree />
+  },
+  {
+    path: '*',
+    element: <div>
+      <h1>Page not found</h1>
+      <button><a className='backward-link' href="/">Go to Home</a></button>
+    </div>
   }
 ]);
 
