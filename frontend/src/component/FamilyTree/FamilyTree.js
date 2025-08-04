@@ -111,11 +111,11 @@ const FamilyTree = () => {
                                 </div>
 
                             )}
-                            <div className='edit-tree-btn-container'>
-                                <button className='edit-tree-btn' >
-                                    <img src={updateIcon} alt='edit-tree-icon' />
-                                </button>
-                            </div>
+
+                            <button className='edit-tree-btn' >
+                                <img src={updateIcon} alt='edit-tree-icon' />
+                            </button>
+                            
                         </div>
                     ))
                 )}

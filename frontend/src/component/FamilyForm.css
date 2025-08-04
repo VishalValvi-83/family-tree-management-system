@@ -35,8 +35,9 @@ select {
 
 button {
     padding: 10px 20px;
-    background-color: #e30000;
+    background-color: #e30000;  
     color: #fff;
+    font-weight: bold;
     border: none;
     width: 200px;
     border-radius: 4px;
