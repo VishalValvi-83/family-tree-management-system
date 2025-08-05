@@ -32,7 +32,7 @@
 .family-tree-member {
     position: relative;
     background-color: #ffffff;
-    border: 2px solid #ccc;
+    border: 1px solid #d3d3d3;
     border-radius: 10px;
     padding: 12px 20px;
     margin: 10px 0;
@@ -69,9 +69,9 @@
 
 .relationship-section h4 {
     font-weight: bold;
-    color: #333;
+    color: #4a4a4a;
     margin-bottom: 0.5rem;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #fef6f6;
     padding-bottom: 4px;
 }
 
@@ -84,12 +84,12 @@
 
 .member-name {
     font-weight: bold;
-    color: #161616;
+    color: black;
 }
 
 .member-role {
     font-size: 0.85rem;
-    color: #666;
+    color: gray;
     margin-top: -4px;
 }
 
