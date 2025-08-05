@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './FamilyForm.css';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 function FamilyForm() {
     // const [members, setMembers] = useState([]);
@@ -48,7 +49,24 @@ function FamilyForm() {
             }
 
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/add-member`, payload);
-            alert(response.data.message);
+            // alert(response.data.message);
+            toast.success((response.data.message), {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+            setTimeout(() => {
+                toast.loading("Loading member's details...");
+            }, 1000);
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+
 
             setFormData({
                 name: '',
@@ -71,6 +89,19 @@ function FamilyForm() {
         console.log(formData);
         addFamilyMember();
     };
+
+    // const notifySuccess = () => {
+    //     toast.success("Success! Item added to cart.", {
+    //         position: "top-center",
+    //         autoClose: 3000,
+    //         hideProgressBar: true,
+    //         closeOnClick: true,
+    //         pauseOnHover: false,
+    //         draggable: true,
+    //         progress: undefined,
+    //         theme: "colored",
+    //     });
+    // };
 
     return (
         <form onSubmit={handleSubmit}>
@@ -212,6 +243,7 @@ function FamilyForm() {
                 }
             </div>
             <button type="submit"  >Submit</button>
+            <ToastContainer />
         </form>
     );
 }
