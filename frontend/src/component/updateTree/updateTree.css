@@ -1,10 +1,16 @@
 .update-member-form{
-    margin-top: 50px;
-    width: 450px;
+    padding-top: 80px;
+    width: 100%;
+    margin: 0 auto;
 
 }
 .update-member-form .heading{
     text-align: center;
+}
+.update-member-form form{
+    width: 450px;
+    margin: 0 auto;
+    margin-top: 50px;
 }
 .update-member-form input, select{
     outline: none;

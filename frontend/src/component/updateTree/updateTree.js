@@ -68,7 +68,7 @@ const UpdateTree = () => {
 
     return (
         <div className='update-member-form'>
-            <h1 className='heading'>Update Form</h1>
+            <h1 className='heading'>Update Member's Details</h1>
             <form >
                 <div className="form-fields">
                     <label htmlFor="name">Full Name:</label>
