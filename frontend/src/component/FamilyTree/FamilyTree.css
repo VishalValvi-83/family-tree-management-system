@@ -1,9 +1,6 @@
 .family-tree-box {
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
-    background-color: #f2f2f2;
-    border: 1px solid #e3e3e3;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     color: black;
     transition: height 0.3s ease;
     width: 100%;
@@ -19,17 +16,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    background-image: url("./../../assets/tree.jpg");
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
     align-items: center;
-    margin: 2rem auto;
-    padding: 1rem;
-    background-color: #f9f9f9;
+    padding: 8px;
     border-radius: 12px;
     max-width: 800px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
 .family-tree-member {
@@ -39,7 +30,7 @@
     border: 1px solid #d3d3d3;
     border-radius: 10px;
     padding: 12px 20px;
-    margin: 10px 0;
+    margin: 10px 2px;
     min-width: 200px;
     text-align: center;
     box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.166);

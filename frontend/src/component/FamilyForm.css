@@ -1,8 +1,9 @@
 form {
     display: flex;
     flex-direction: column;
-    border: 1px solid #e30000;
-    background-color: aliceblue;
+    /* border: 1px solid #e30000; */
+    background-color: rgba(240, 248, 255, 0.496);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     color: #1e1e1e;
     padding: 20px;
     border-radius: 8px;
