@@ -51,7 +51,6 @@ const FamilyTree = () => {
                         <div key={member._id} className={`family-tree-member ${member.gender === 'male' ? 'father' : 'mother'}`}>
                             <div className="family-tree-member-name">{member.name}</div>
 
-                            {/* Parents */}
                             {(member.father || member.mother) && (
                                 <div className="relationship-section">
                                     <h4>Parents</h4>
@@ -72,7 +71,6 @@ const FamilyTree = () => {
                                 </div>
                             )}
 
-                            {/* Children */}
                             {member.children?.length > 0 && (
                                 <div className="relationship-section">
                                     <h4>Children</h4>
@@ -92,7 +90,6 @@ const FamilyTree = () => {
                                 </div>
                             )}
 
-                            {/* Siblings */}
                             {member.siblings?.length > 0 && (
                                 <div className="relationship-section">
                                     <h4>Siblings</h4>
@@ -117,7 +114,7 @@ const FamilyTree = () => {
                             <Link to={`/update-tree/${member._id}`} className='edit-tree-btn' >
                                 <img src={updateIcon} alt='edit-tree-icon' />
                             </Link>
-                            
+
                             <img src={deleteIcon}
                                 className='delete-tree-btn'
                                 // onClick={() => handleDeleteMember(member._id)}
