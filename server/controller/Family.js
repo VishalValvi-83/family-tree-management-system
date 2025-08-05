@@ -15,7 +15,7 @@ export const postFamily = async (req, res) => {
 
         const totalCount = await Family.countDocuments();
 
-        // 1. First member (root)
+        //first member as the root of the family tree
         if (totalCount === 0) {
             const firstMember = await Family.create({
                 name,
@@ -23,16 +23,9 @@ export const postFamily = async (req, res) => {
                 gender,
                 dateOfBirth: new Date(dateOfBirth),
             });
-
             return res.status(201).json({
-                message: `No existing members found. '${name}' saved as root (${gender === 'male' ? 'father' : 'mother'}).`,
+                message: `No existing members found. '${name}' saved as root.`,
                 newMember: firstMember,
-            });
-        }
-
-        if (!relation) {
-            return res.status(400).json({
-                message: "Relation and relatedToName are required for linking to existing family",
             });
         }
 
@@ -43,34 +36,31 @@ export const postFamily = async (req, res) => {
             });
         }
 
-        const newMember = new Family({
-            name,
-            age,
-            gender,
-            dateOfBirth: new Date(dateOfBirth),
-        });
-
         if (relation.toLowerCase() === 'child') {
             const father = relatedToFatherName ? await Family.findOne({ name: relatedToFatherName }) : null;
             const mother = relatedToMotherName ? await Family.findOne({ name: relatedToMotherName }) : null;
 
             if (!father && !mother) {
-                return res.status(404).json({ message: `At least one parent must be found.` });
+                return res.status(404).json({
+                    message: `At least one parent must be found. Check the names.`,
+                });
             }
+
+            const newMember = await Family.create({
+                name,
+                age,
+                gender,
+                dateOfBirth: new Date(dateOfBirth),
+                father: father ? father._id : null,
+                mother: mother ? mother._id : null,
+            });
 
             if (father) {
-                newMember.father = father._id;
-                father.children.push(newMember._id);
-                await father.save();
+                await Family.findByIdAndUpdate(father._id, { $push: { children: newMember._id } });
             }
-
             if (mother) {
-                newMember.mother = mother._id;
-                mother.children.push(newMember._id);
-                await mother.save();
+                await Family.findByIdAndUpdate(mother._id, { $push: { children: newMember._id } });
             }
-
-            await newMember.save();
 
             return res.status(201).json({
                 message: "Child added successfully with linked parents.",
@@ -78,9 +68,13 @@ export const postFamily = async (req, res) => {
             });
         }
 
-        // For relations that require relatedToName
+        const newMember = new Family({
+            name,
+            age,
+            gender,
+            dateOfBirth: new Date(dateOfBirth),
+        });
         const relatedPerson = await Family.findOne({ name: relatedToName });
-
         if (!relatedPerson) {
             return res.status(404).json({
                 message: `Related person '${relatedToName}' not found. Please add them first.`,
@@ -92,17 +86,14 @@ export const postFamily = async (req, res) => {
                 newMember.children.push(relatedPerson._id);
                 relatedPerson.father = newMember._id;
                 break;
-
             case 'mother':
                 newMember.children.push(relatedPerson._id);
                 relatedPerson.mother = newMember._id;
                 break;
-
             case 'sibling':
                 newMember.siblings.push(relatedPerson._id);
                 relatedPerson.siblings.push(newMember._id);
                 break;
-
             default:
                 return res.status(400).json({ message: "Invalid relation type" });
         }
@@ -110,7 +101,7 @@ export const postFamily = async (req, res) => {
         await newMember.save();
         await relatedPerson.save();
 
-        return res.status(201).json({
+        return res.json({
             message: "Family member created and linked successfully.",
             newMember,
         });
@@ -165,21 +156,18 @@ export const deleteFamilyMember = async (req, res) => {
             return res.status(404).json({ message: "Member not found" });
         }
 
-        // Remove this member from father's children
         if (member.father) {
             await Family.findByIdAndUpdate(member.father, {
                 $pull: { children: _id }
             });
         }
 
-        // Remove this member from mother's children
         if (member.mother) {
             await Family.findByIdAndUpdate(member.mother, {
                 $pull: { children: _id }
             });
         }
 
-        // Remove this member from siblings' sibling arrays
         if (member.siblings && member.siblings.length > 0) {
             await Family.updateMany(
                 { _id: { $in: member.siblings } },
@@ -187,7 +175,6 @@ export const deleteFamilyMember = async (req, res) => {
             );
         }
 
-        // Set this member's children’s parent (father/mother) to null
         if (member.children && member.children.length > 0) {
             const updateField = member.gender === 'male' ? 'father' : 'mother';
             await Family.updateMany(
@@ -196,7 +183,6 @@ export const deleteFamilyMember = async (req, res) => {
             );
         }
 
-        // Finally, delete the member
         await Family.findByIdAndDelete(_id);
 
         return res.status(200).json({ message: "Member deleted successfully" });
