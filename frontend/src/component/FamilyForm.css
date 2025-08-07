@@ -2,9 +2,9 @@ form {
     display: flex;
     flex-direction: column;
     /* border: 1px solid #e30000; */
-    background-color: rgba(240, 248, 255, 0.496);
+    background-color: #f9f6ed8f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: #1e1e1e;
+    color: #6a5524;
     padding: 20px;
     border-radius: 8px;
     gap: 15px;
@@ -23,7 +23,8 @@ input[type="date"],
 select {
     width: 100%;
     padding: 10px;
-    border: 2px solid #bedefa;
+    background-color: #fabebe;
+    border: 2px solid #fabebe;
     border-radius: 4px;
     font-size: 16px;
 }

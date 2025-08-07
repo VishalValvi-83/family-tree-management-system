@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Carattere&family=Fascinate&display=swap');
+
+.header {
+    text-align: center;
+}
+
+.header-title img {
+    width: 50px;
+    height: auto;
+    vertical-align: middle;
+    margin-top: -20px;
+    margin-right: 5px;
+}
+
+.header p {
+    color: #6a5524;
+    font-family: "Fascinate", system-ui;
+    font-size: 40px;
+    display: inline-block;
+}
+
+.header span {
+    font-family: "Carattere", cursive;
+    font-weight: 400;
+    font-size: 20px;
+    font-style: normal;
+}
+
+@media screen and (max-width: 768px) {
+    .header p {
+        font-size: 30px;
+    }
+
+    .header-title img {
+        width: 40px;
+        margin-top: -15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .header p {
+        font-size: 24px;
+    }
+
+    .header-title img {
+        width: 30px;
+        margin-top: -10px;
+    }
+}

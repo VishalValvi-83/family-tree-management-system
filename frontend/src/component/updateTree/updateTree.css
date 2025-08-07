@@ -1,17 +1,23 @@
-.update-member-form{
-    padding-top: 80px;
+.update-member-form {
     width: 100%;
     margin: 0 auto;
-
+    margin-top: 30px;
 }
-.update-member-form .heading{
+
+.update-member-form .heading {
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: 300;
+    color: #6a5524;
     text-align: center;
 }
-.update-member-form form{
+
+.update-member-form form {
     width: 450px;
     margin: 0 auto;
     margin-top: 50px;
 }
-.update-member-form input, select{
+
+.update-member-form input,
+select {
     outline: none;
 }

@@ -13,31 +13,6 @@
     transition: height 0.3s cubic-bezier(0.84, 0.29, 1, 1);
 }
 
-.header {
-    text-align: center;
-}
-
-.header-title img {
-    width: 50px;
-    height: auto;
-    vertical-align: middle;
-    margin-top: -20px;
-    margin-right: 5px;
-}
-
-.header p {
-    color: #6a5524;
-    font-family: "Fascinate", system-ui;
-    font-size: 40px;
-    display: inline-block;
-}
-
-.header span {
-    font-family: "Carattere", cursive;
-    font-weight: 400;
-    font-style: normal;
-}
-
 @media screen and (max-width: 1200px) {
     .container {
         max-width: 95%;

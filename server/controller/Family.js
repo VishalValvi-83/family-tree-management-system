@@ -24,7 +24,7 @@ export const postFamily = async (req, res) => {
                 dateOfBirth: new Date(dateOfBirth),
             });
             return res.status(201).json({
-                message: `No existing members found. '${name}' saved as root.`,
+                message: `Member will '${name}' saved as root.`,
                 newMember: firstMember,
             });
         }
@@ -136,6 +136,12 @@ export const getFamilyMember = async (req, res) => {
 
 export const getAllFamilyMembers = async (req, res) => {
     try {
+        const totalCount = await Family.countDocuments();
+        if (totalCount === 0) {
+            res.json({
+                message: "Add the first family member, who will be the parent."
+            })
+        }
         const members = await Family.find();
         res.json({
             message: 'All family members',
@@ -191,4 +197,4 @@ export const deleteFamilyMember = async (req, res) => {
         console.error("Error deleting member:", error);
         return res.status(500).json({ message: error.message });
     }
-};
+}; 
