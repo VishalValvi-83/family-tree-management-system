@@ -4,6 +4,7 @@ import './FamilyTree.css';
 import updateIcon from './../../assets/updatet-Icon.png'
 import { Link } from 'react-router-dom';
 import deleteIcon from './../../assets/deleteIcon.png'
+import AnimatedImg from './../../assets/animated.gif'
 import { toast } from 'react-toastify'
 
 const FamilyTree = () => {
@@ -15,8 +16,9 @@ const FamilyTree = () => {
         const fetchFamilyTree = async () => {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_API_URL}/get-all-members`);
-                if (res.data.data.length > 0)
+                if (res.data?.data?.length > 0)
                     setMembers(res.data.data);
+                setMembers(null)
                 setError(res.data.message)
             } catch (err) {
                 console.error('Error fetching family tree:', err);
@@ -145,12 +147,13 @@ const FamilyTree = () => {
                             onClick={() => handleDeleteMember(member._id)}
                             alt='delete-icon' />
                     </div>
+                ))) :
+                    <div className='error-404'>
+                        <h2>No Members !</h2>
+                        <img src={AnimatedImg} alt='error-img' height={'250'} />
+                        <p className='error'>{error}</p>
+                    </div>
                 )
-                )
-                ) : <div className='error-404'>
-                    <h2>Member Not Found!</h2>
-                    <p>{error}</p>
-                </div>)
                 }
 
             </div>
