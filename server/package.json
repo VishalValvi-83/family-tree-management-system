@@ -1,11 +1,11 @@
 {
   "name": "index",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "Index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node server/index.js"
+    "dev": "nodemon Index.js",
+    "start": "node server/Index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
