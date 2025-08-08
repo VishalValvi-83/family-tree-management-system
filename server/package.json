@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon Index.js",
-    "start": "node server/Index.js"
+    "start": "node Index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
