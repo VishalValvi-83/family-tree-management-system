@@ -27,13 +27,15 @@
     color: #f06262;
     text-align: center;
 }
-.family-tree-box .error-404 img{
+
+.family-tree-box .error-404 img {
     width: 60%;
     height: 60%;
     margin: 10px auto;
     display: block;
     object-fit: cover;
 }
+
 .family-tree-box .error-404 p {
     color: #d44040;
     font-style: italic;
@@ -134,10 +136,16 @@
     position: absolute;
     background: transparent;
     transition: all 0.2s ease;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     top: 5px;
     right: 8px;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.edit-tree-btn:hover {
+    background-color: #bed8f7;
 }
 
 .edit-tree-btn img {
@@ -150,9 +158,17 @@
 .delete-tree-btn {
     position: absolute;
     background: transparent;
+    transition: all 0.2s ease;
     right: 10px;
     bottom: 10px;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
+    padding: 4px;
     cursor: pointer;
+    border-radius: 5px;
+
+}
+
+.delete-tree-btn:hover {
+    background-color: #fdc9bf;
 }
