@@ -2,7 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import cors from 'cors'
-import { deleteFamilyMember, getAllFamilyMembers, getFamilyMember, postFamily } from './controller/Family.js'
+import { deleteFamilyMember, getAllFamilyMembers, getFamilyMember, postFamily, updateFamilyMember } from './controller/Family.js'
 
 dotenv.config()
 
@@ -28,6 +28,7 @@ app.post('/add-member', postFamily)
 app.get('/get-member/:_id', getFamilyMember)
 app.get('/get-all-members', getAllFamilyMembers)
 app.delete('/delete-member/:_id', deleteFamilyMember)
+app.patch('/update-member/:id', updateFamilyMember)
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server running on port http://localhost:${port}`)) 

@@ -18,8 +18,10 @@ const FamilyTree = () => {
                 const res = await axios.get(`${process.env.REACT_APP_API_URL}/get-all-members`);
                 if (res.data?.data?.length > 0)
                     setMembers(res.data.data);
-                setMembers(null)
-                setError(res.data.message)
+                if (!res.data.data) {
+                    setMembers(null);
+                    setError(res.data.message)
+                }
             } catch (err) {
                 console.error('Error fetching family tree:', err);
             } finally {

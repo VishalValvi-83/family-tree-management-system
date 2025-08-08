@@ -189,7 +189,7 @@ function FamilyForm() {
                                     placeholder="Enter father's name"
                                     value={formData.relatedToFatherName}
                                     onChange={handleChange}
-                                    required
+                                    // required
                                 />
                             </div>
 
@@ -202,7 +202,7 @@ function FamilyForm() {
                                     placeholder="Enter mother's name"
                                     value={formData.relatedToMotherName}
                                     onChange={handleChange}
-                                    required
+                                    // required
                                 />
                             </div>
                         </>
