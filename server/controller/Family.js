@@ -133,36 +133,25 @@ export const postFamily = async (req, res) => {
 
 export const getFamilyMember = async (req, res) => {
     try {
-        const { _id } = req.params;
+        const { _id } = req.params
 
         const member = await Family.findById(_id)
             .populate('father')
             .populate('mother')
-            .populate('children');
+            .populate('children')
+            .populate('siblings')
 
         if (!member) {
-            return res.status(404).json({ message: 'Member not found' });
+            return res.status(404).json({ message: 'Member not found' })
         }
-
-        // Find siblings (same parents, different _id)
-        const siblings = await Family.find({
-            _id: { $ne: member._id },
-            father: member.father?._id || null,
-            mother: member.mother?._id || null
-        });
-
         res.json({
-            message: 'Member found',
-            data: {
-                ...member.toObject(),
-                siblings // calculated instead of stored
-            }
-        });
+            message: 'Member is found',
+            data: member
+        })
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message })
     }
-};
-
+}
 
 export const getAllFamilyMembers = async (req, res) => {
     try {
