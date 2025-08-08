@@ -106,12 +106,12 @@ function FamilyForm() {
     return (
         <form onSubmit={handleSubmit}>
             <div className="form-fields">
-                <label htmlFor="name">Full Name:</label>
+                <label htmlFor="name">Member's Name:</label>
                 <input
                     type="text"
                     id="name"
                     name="name"
-                    placeholder="Enter your name"
+                    placeholder="Enter name"
                     value={formData.name}
                     onChange={handleChange}
                     required
@@ -125,7 +125,7 @@ function FamilyForm() {
                         type="number"
                         id="age"
                         name="age"
-                        placeholder="Enter your age"
+                        placeholder="Enter age"
                         value={formData.age}
                         onChange={handleChange}
                         required
@@ -172,7 +172,7 @@ function FamilyForm() {
                     <option value="father">Father</option>
                     <option value="mother">Mother</option>
                     <option value="child">Child</option>
-                    <option value="sibling">Sibling</option>
+                    {/* <option value="sibling">Sibling</option> */}
                 </select>
             </div>
 
@@ -224,22 +224,22 @@ function FamilyForm() {
                         )
                     )
 
-                    || (
-                        formData.relation === 'sibling' && (
-                            <div>
-                                <label htmlFor="relatedToName">Sibling's Name:</label>
-                                <input
-                                    type="text"
-                                    id="relatedToName"
-                                    name="relatedToName"
-                                    placeholder="Enter sibling's name"
-                                    value={formData.relatedToName}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                        )
-                    )
+                    // || (
+                    //     formData.relation === 'sibling' && (
+                    //         <div>
+                    //             <label htmlFor="relatedToName">Sibling's Name:</label>
+                    //             <input
+                    //                 type="text"
+                    //                 id="relatedToName"
+                    //                 name="relatedToName"
+                    //                 placeholder="Enter sibling's name"
+                    //                 value={formData.relatedToName}
+                    //                 onChange={handleChange}
+                    //                 required
+                    //             />
+                    //         </div>
+                    //     )
+                    // )
                 }
             </div>
             <button type="submit"  >Submit</button>
