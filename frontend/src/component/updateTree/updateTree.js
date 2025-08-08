@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './updateTree.css'
 import Header from '../Header/Header';
-
+import { toast, ToastContainer } from 'react-toastify'
 const UpdateTree = () => {
 
     const { _id } = useParams();
@@ -56,13 +56,40 @@ const UpdateTree = () => {
         }
     }
 
-    const handleChange = (e) => {
+    const onValueChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
             [name]: value
         }));
     };
+    const updateData = async (e) => {
+        e.preventDefault();
+        if (_id) {
+            try {
+                const response = await axios.patch(`${process.env.REACT_APP_API_URL}/update-member/${_id}`, formData)
+                console.log(response.data)
+                toast.success(response.data.message, {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                })
+                setTimeout(() => {
+                    toast.loading("Redirecting...")
+                }, 3000);
+                setTimeout(() => {
+                    toast.dismiss()
+                    window.location.pathname = '/'
+                }, 4000);
+            } catch (error) {
+                console.log(error.message)
+            }
+        }
+    }
     useEffect(() => {
         loadMember(_id)
     }, [_id])
@@ -72,7 +99,7 @@ const UpdateTree = () => {
             <Header />
             <div className='update-member-form'>
                 <h1 className='heading'>Update Member's Details</h1>
-                <form >
+                <form onSubmit={updateData} >
                     <div className="form-fields">
                         <label htmlFor="name">Full Name:</label>
                         <input
@@ -81,7 +108,7 @@ const UpdateTree = () => {
                             name="name"
                             placeholder="Enter your name"
                             value={formData.name}
-                            onChange={handleChange}
+                            onChange={onValueChange}
                             required
                         />
                     </div>
@@ -95,7 +122,7 @@ const UpdateTree = () => {
                                 name="age"
                                 placeholder="Enter your age"
                                 value={formData.age}
-                                onChange={handleChange}
+                                onChange={onValueChange}
                                 required
                             />
                         </div>
@@ -107,7 +134,7 @@ const UpdateTree = () => {
                                 id="dateOfBirth"
                                 name="dateOfBirth"
                                 value={formData.dateOfBirth}
-                                onChange={handleChange}
+                                onChange={onValueChange}
                                 required
                             />
                         </div>
@@ -118,7 +145,7 @@ const UpdateTree = () => {
                                 name="gender"
                                 id="gender"
                                 value={formData.gender}
-                                onChange={handleChange}
+                                onChange={onValueChange}
                             >
                                 <option value="" disabled>Select gender</option>
                                 <option value="male">Male</option>
@@ -134,7 +161,7 @@ const UpdateTree = () => {
                             name="relation"
                             id="relation"
                             value={formData.relation}
-                            onChange={handleChange}
+                            onChange={onValueChange}
                         >
                             <option value="" disabled>Select relation</option>
                             <option value="father">Father</option>
@@ -156,7 +183,7 @@ const UpdateTree = () => {
                                             name="relatedToFatherName"
                                             placeholder="Enter father's name"
                                             value={formData.relatedToFatherName}
-                                            onChange={handleChange}
+                                            onChange={onValueChange}
                                             required
                                         />
                                     </div>
@@ -169,7 +196,7 @@ const UpdateTree = () => {
                                             name="relatedToMotherName"
                                             placeholder="Enter mother's name"
                                             value={formData.relatedToMotherName}
-                                            onChange={handleChange}
+                                            onChange={onValueChange}
                                             required
                                         />
                                     </div>
@@ -185,7 +212,7 @@ const UpdateTree = () => {
                                             name="relatedToName"
                                             placeholder="Enter child's name"
                                             value={formData.relatedToName}
-                                            onChange={handleChange}
+                                            onChange={onValueChange}
                                             required
                                         />
                                     </div>
@@ -202,7 +229,7 @@ const UpdateTree = () => {
                                             name="relatedToName"
                                             placeholder="Enter sibling's name"
                                             value={formData.relatedToName}
-                                            onChange={handleChange}
+                                            onChange={onValueChange}
                                             required
                                         />
                                     </div>
@@ -216,6 +243,7 @@ const UpdateTree = () => {
                     <button type="submit"  >Submit</button>
                 </form>
             </div>
+            <ToastContainer />
         </>
     )
 }
