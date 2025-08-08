@@ -37,11 +37,11 @@ export const postFamily = async (req, res) => {
         }
         if (relation.toLowerCase() === 'child') {
 
-            const father = relatedToFatherName ? await Family.findOne({ name: relatedToFatherName }) : null;
-            const mother = relatedToMotherName ? await Family.findOne({ name: relatedToMotherName }) : null;
+            const father = relatedToFatherName ? await Family.findOne({ name: relatedToFatherName }) : null
+            const mother = relatedToMotherName ? await Family.findOne({ name: relatedToMotherName }) : null
 
             if (!father && !mother) {
-                return res.status(404).json({ message: "At least one parent must be found." });
+                return res.status(404).json({ message: "At least one parent must be found." })
             }
 
             const newMember = await Family.create({
@@ -52,39 +52,39 @@ export const postFamily = async (req, res) => {
                 father: father ? father._id : null,
                 mother: mother ? mother._id : null,
                 siblings: []
-            });
+            })
 
             if (father) {
-                father.children.push(newMember._id);
-                await father.save();
+                father.children.push(newMember._id)
+                await father.save()
             }
             if (mother) {
-                mother.children.push(newMember._id);
-                await mother.save();
+                mother.children.push(newMember._id)
+                await mother.save()
             }
 
-            let siblingIds = [];
-            if (father) siblingIds = siblingIds.concat(father.children);
-            if (mother) siblingIds = siblingIds.concat(mother.children);
+            let siblingIds = []
+            if (father) siblingIds = siblingIds.concat(father.children)
+            if (mother) siblingIds = siblingIds.concat(mother.children)
 
-            siblingIds = siblingIds.filter(id => id.toString() !== newMember._id.toString());
+            siblingIds = siblingIds.filter(id => id.toString() !== newMember._id.toString())
 
             for (let id of siblingIds) {
-                const sibling = await Family.findById(id);
+                const sibling = await Family.findById(id)
                 if (!sibling.siblings.includes(newMember._id)) {
-                    sibling.siblings.push(newMember._id);
-                    await sibling.save();
+                    sibling.siblings.push(newMember._id)
+                    await sibling.save()
                 }
                 if (!newMember.siblings.includes(sibling._id)) {
-                    newMember.siblings.push(sibling._id);
+                    newMember.siblings.push(sibling._id)
                 }
             }
-            await newMember.save();
+            await newMember.save()
 
             return res.status(201).json({
                 message: "Child added with parents and siblings.",
                 newMember,
-            });
+            })
         }
 
         const newMember = new Family({
@@ -133,25 +133,36 @@ export const postFamily = async (req, res) => {
 
 export const getFamilyMember = async (req, res) => {
     try {
-        const { _id } = req.params
+        const { _id } = req.params;
 
         const member = await Family.findById(_id)
             .populate('father')
             .populate('mother')
-            .populate('children')
-            .populate('siblings')
+            .populate('children');
 
         if (!member) {
-            return res.status(404).json({ message: 'Member not found' })
+            return res.status(404).json({ message: 'Member not found' });
         }
+
+        // Find siblings (same parents, different _id)
+        const siblings = await Family.find({
+            _id: { $ne: member._id },
+            father: member.father?._id || null,
+            mother: member.mother?._id || null
+        });
+
         res.json({
-            message: 'Member is found',
-            data: member
-        })
+            message: 'Member found',
+            data: {
+                ...member.toObject(),
+                siblings // calculated instead of stored
+            }
+        });
     } catch (error) {
-        res.status(500).json({ error: error.message })
+        res.status(500).json({ error: error.message });
     }
-}
+};
+
 
 export const getAllFamilyMembers = async (req, res) => {
     try {
@@ -167,7 +178,7 @@ export const getAllFamilyMembers = async (req, res) => {
             data: members
         })
     } catch (error) {
-        return res.status(500).json({ message: "Server error" });
+        return res.status(500).json({ message: "Server error" })
     }
 }
 
@@ -215,5 +226,79 @@ export const deleteFamilyMember = async (req, res) => {
     } catch (error) {
         console.error("Error deleting member:", error)
         return res.status(500).json({ message: error.message })
+    }
+}
+
+export const updateFamilyMember = async (req, res) => {
+    try {
+        const { id } = req.params
+        const {
+            name,
+            age,
+            gender,
+            dateOfBirth,
+            relation,
+            relatedToName,
+            relatedToFatherName,
+            relatedToMotherName
+        } = req.body
+
+        const member = await Family.findById(id)
+        if (!member) {
+            return res.status(404).json({ message: "Family member not found." })
+        }
+
+        if (name) member.name = name
+        if (age) member.age = age
+        if (gender) member.gender = gender
+        if (dateOfBirth) member.dateOfBirth = new Date(dateOfBirth)
+
+        if (relation && relation.toLowerCase() === "child") {
+            const father = relatedToFatherName ? await Family.findOne({ name: relatedToFatherName }) : null
+            const mother = relatedToMotherName ? await Family.findOne({ name: relatedToMotherName }) : null
+
+            if (!father && !mother) {
+                return res.status(404).json({ message: "At least one parent must be found." })
+            }
+
+            member.father = father ? father._id : null
+            member.mother = mother ? mother._id : null
+
+            if (father && !father.children.includes(member._id)) {
+                father.children.push(member._id)
+                await father.save()
+            }
+            if (mother && !mother.children.includes(member._id)) {
+                mother.children.push(member._id)
+                await mother.save()
+            }
+
+            let siblingIds = []
+            if (father) {
+                siblingIds = siblingIds.concat(father.children)
+            }
+            if (mother) {
+                siblingIds = siblingIds.concat(mother.children)
+            }
+            siblingIds = siblingIds.filter(id => id.toString() !== member._id.toString())
+
+            for (let sibId of siblingIds) {
+                const sibling = await Family.findById(sibId)
+                if (!sibling.siblings.includes(member._id)) {
+                    sibling.siblings.push(member._id)
+                    await sibling.save()
+                }
+                if (!member.siblings.includes(sibling._id)) {
+                    member.siblings.push(sibling._id)
+                }
+            }
+        }
+
+        await member.save()
+        return res.json({ message: "Family member updated successfully.", updatedMember: member })
+
+    } catch (error) {
+        console.error("Error updating family member:", error)
+        res.status(500).json({ message: error.message })
     }
 }
