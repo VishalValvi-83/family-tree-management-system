@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import './updateTree.css'
 import Header from '../Header/Header';
 import { toast, ToastContainer } from 'react-toastify'
@@ -93,6 +93,13 @@ const UpdateTree = () => {
     useEffect(() => {
         loadMember(_id)
     }, [_id])
+
+    function notify() {
+        toast.info("Update canceled.")
+        setTimeout(() => {
+            window.location.pathname = '/'
+        }, 2000);
+    }
 
     return (
         <>
@@ -237,10 +244,10 @@ const UpdateTree = () => {
                             )
                         }
                     </div>
-
-
-
-                    <button type="submit"  >Submit</button>
+                    <div>
+                        <button type="submit"  >Submit</button>
+                        <Link className='cancel-btn'  onClick={notify} >Cancel</Link>
+                    </div>
                 </form>
             </div>
             <ToastContainer />

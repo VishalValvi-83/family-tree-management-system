@@ -5,7 +5,7 @@
 }
 
 .update-member-form .heading {
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-weight: 300;
     color: #6a5524;
     text-align: center;
@@ -20,4 +20,17 @@
 .update-member-form input,
 select {
     outline: none;
+}
+
+.cancel-btn {
+    background-color: #36f446;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 10px 5px;
 }
