@@ -2,9 +2,9 @@ form {
     display: flex;
     flex-direction: column;
     /* border: 1px solid #e30000; */
-    background-color: #f9f6ed8f;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: #6a5524;
+    background-color: var(--form-background-color);
+    box-shadow: var(--form-shadow);
+    color: var(--primary-color);
     padding: 20px;
     border-radius: 8px;
     gap: 15px;
@@ -23,8 +23,8 @@ input[type="date"],
 select {
     width: 100%;
     padding: 10px;
-    background-color: #fabebe;
-    border: 2px solid #fabebe;
+    background-color: var(--form-input-color);
+    border: var(--input-border);
     border-radius: 4px;
     font-size: 16px;
 }
@@ -33,19 +33,6 @@ select {
     display: flex;
     flex-direction: row;
     gap: 10px;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #e30000;
-    color: #fff;
-    font-weight: bold;
-    border: none;
-    width: 200px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
 }
 
 @media screen and (max-width: 768px) {

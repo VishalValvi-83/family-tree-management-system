@@ -5,7 +5,6 @@ import FamilyTree from './component/FamilyTree/FamilyTree.js';
 import Header from './component/Header/Header.js';
 function App() {
 
-
   return (
     <>
       <Header/>
