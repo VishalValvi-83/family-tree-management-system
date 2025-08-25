@@ -37,7 +37,12 @@ const familySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Family',
         default: []
-    }]
+    }],
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 }, { timestamps: true });
 
 const Family = model('Family', familySchema);
