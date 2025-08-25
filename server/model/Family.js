@@ -1,47 +1,32 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 const familySchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: [true, 'Name is required.']
     },
     age: {
         type: Number,
-        required: true
+        required: [true, 'Age is required.']
     },
     gender: {
         type: String,
-        enum: ['male', 'female', 'other'],
-        required: true
+        required: [true, 'Gender is required.']
     },
     dateOfBirth: {
         type: Date,
-        required: true
+        required: [true, 'Date of birth is required.']
     },
-    father: {
-        type: Schema.Types.ObjectId,
-        ref: 'Family',
-        default: null
+    relation: {
+        type: String,
+        required: [true, 'Relation is required.']
     },
-    mother: {
-        type: Schema.Types.ObjectId,
-        ref: 'Family',
-        default: null
-    },
-    siblings: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Family',
-        default: []
-    }],
-    children: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Family',
-        default: []
-    }],
-    user: {
+
+    treeOwner: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: true,
+        index: true
     }
 }, { timestamps: true });
 
