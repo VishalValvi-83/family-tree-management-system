@@ -3,13 +3,14 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import { deleteFamilyMember, getAllFamilyMembers, getFamilyMember, postFamily, updateFamilyMember } from './controller/Family.js'
+import { postlogin, postSignup, } from './controller/User.js'
 
 dotenv.config()
 
 const app = express()
 app.use(express.json())
 app.use(cors())
- 
+
 const connection = async () => {
     try {
         const conn = await mongoose.connect(process.env.DB_URL)
@@ -22,8 +23,13 @@ const connection = async () => {
 connection();
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send('Hello from server!')
 })
+//user api
+app.post('/signup', postSignup)
+app.post('/login', postlogin)
+
+//family tree api
 app.post('/add-member', postFamily)
 app.get('/get-member/:_id', getFamilyMember)
 app.get('/get-all-members', getAllFamilyMembers)

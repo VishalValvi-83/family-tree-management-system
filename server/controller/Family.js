@@ -133,7 +133,7 @@ export const postFamily = async (req, res) => {
 
 export const getFamilyMember = async (req, res) => {
     try {
-        const { _id } = req.query;
+        const { _id } = req.params;
 
         const member = await Family.findById(_id)
             .populate('father', 'name')
