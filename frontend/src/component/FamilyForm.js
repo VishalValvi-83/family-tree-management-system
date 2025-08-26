@@ -1,30 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './FamilyForm.css';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function FamilyForm() {
-    // const [members, setMembers] = useState([]);
+    const navigate = useNavigate();
+    const [members, setMembers] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
         age: '',
         dateOfBirth: '',
         gender: '',
         relation: '',
-        relatedToFatherName: '',
-        relatedToMotherName: '',
-        relatedToName: '',
+        relatedTo: '',
     });
 
-    // const getFamilyTree = async () => {
-    //     try {
-    //         const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-all-members`);
-    //         const data = response.data.data;
-    //         setMembers(data);
-    //     } catch (error) {
-    //         console.error("Error fetching family tree:", error)
-    //     }
-    // }
+    const getToken = () => localStorage.getItem('token');
+
+    useEffect(() => {
+        const fetchMembers = async () => {
+            try {
+                const token = getToken();
+                if (!token) {
+                    navigate('/login');
+                    return;
+                }
+
+                const res = await axios.get(`${process.env.REACT_APP_API_URL}/family`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (res.data && res.data.length > 0) {
+                    setMembers(res.data);
+                }
+            } catch (err) {
+                console.error('Error fetching members:', err);
+            }
+        };
+
+        fetchMembers();
+    }, [navigate]);
 
 
     const handleChange = (e) => {
@@ -35,73 +53,53 @@ function FamilyForm() {
         }));
     };
 
-    const addFamilyMember = async () => {
-        try {
-            let payload = {
-                ...formData
-            };
-
-            if (formData.relation === 'child') {
-                payload.relatedToName = '';
-            } else {
-                payload.relatedToFatherName = '';
-                payload.relatedToMotherName = '';
-            }
-
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/add-member`, payload);
-            // alert(response.data.message);
-            toast.success((response.data.message), {
-                position: "top-center",
-                autoClose: 2000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
-            setTimeout(() => {
-                toast.loading("Loading member's details...");
-            }, 1000);
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
-
-
-            setFormData({
-                name: '',
-                age: '',
-                dateOfBirth: '',
-                gender: '',
-                relation: '',
-                relatedToFatherName: '',
-                relatedToMotherName: '',
-                relatedToName: '',
-            });
-
-        } catch (error) {
-            alert(error.message);
-        }
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+
+        const addFamilyMember = async () => {
+            const token = getToken();
+            if (!token) {
+                toast.error("You must be logged in to add a family member.");
+                navigate('/login');
+                return;
+            }
+
+            let payload = {
+                name: formData.name,
+                age: formData.age,
+                dateOfBirth: formData.dateOfBirth,
+                gender: formData.gender,
+                relation: formData.relation,
+                relatedTo: formData.relatedTo,
+            };
+
+            try {
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/family`, payload, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                toast.success(response.data.message || "Member added successfully!");
+                navigate('/'); // Navigate to the family tree view on success
+
+            } catch (error) {
+                console.error("Error adding family member:", error);
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        toast.error("Your session has expired. Please log in again.");
+                        navigate('/login');
+                    } else {
+                        toast.error(error.response.data.message || "An error occurred.");
+                    }
+                } else {
+                    toast.error("An error occurred while adding the member.");
+                }
+            }
+        };
+
         addFamilyMember();
     };
-
-    // const notifySuccess = () => {
-    //     toast.success("Success! Item added to cart.", {
-    //         position: "top-center",
-    //         autoClose: 3000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: false,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "colored",
-    //     });
-    // };
 
     return (
         <form onSubmit={handleSubmit}>
@@ -172,89 +170,28 @@ function FamilyForm() {
                     <option value="father">Father</option>
                     <option value="mother">Mother</option>
                     <option value="child">Child</option>
-                    {/* <option value="sibling">Sibling</option> */}
+                    <option value="sibling">Sibling</option>
                 </select>
             </div>
 
-            <div className="form-fields">
-                {
-                    (formData.relation === 'child' && (
-                        <>
-                            <div className="form-fields">
-                                <label htmlFor="relatedToFatherName">Father's Name:</label>
-                                <input
-                                    type="text"
-                                    id="relatedToFatherName"
-                                    name="relatedToFatherName"
-                                    placeholder="Enter father's name"
-                                    value={formData.relatedToFatherName}
-                                    onChange={handleChange}
-                                    // required
-                                />
-                            </div>
+            {formData.relation === 'child' && (
+                <div className="form-fields">
+                    <label htmlFor="relatedTo">Parent:</label>
+                    <select
+                        name="relatedTo"
+                        id="relatedTo"
+                        value={formData.relatedTo}
+                        onChange={handleChange}
+                    >
+                        <option value="" disabled>Select parent</option>
+                        {members.map(member => (
+                            <option key={member._id} value={member._id}>{member.name}</option>
+                        ))}
+                    </select>
+                </div>
+            )}
 
-                            <div className="form-fields">
-                                <label htmlFor="relatedToMotherName">Mother's Name:</label>
-                                <input
-                                    type="text"
-                                    id="relatedToMotherName"
-                                    name="relatedToMotherName"
-                                    placeholder="Enter mother's name"
-                                    value={formData.relatedToMotherName}
-                                    onChange={handleChange}
-                                    // required
-                                />
-                            </div>
-                        </>
-                    ))
-                    || (
-                        (formData.relation === 'mother' || formData.relation === 'father') && (
-                            <div>
-                                <label htmlFor="relatedToName">Child's Name:</label>
-                                <input
-                                    type="text"
-                                    id="relatedToName"
-                                    name="relatedToName"
-                                    placeholder="Enter child's name"
-                                    value={formData.relatedToName}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                        )
-                    )
-
-                    // || (
-                    //     formData.relation === 'sibling' && (
-                    //         <div>
-                    //             <label htmlFor="relatedToName">Sibling's Name:</label>
-                    //             <input
-                    //                 type="text"
-                    //                 id="relatedToName"
-                    //                 name="relatedToName"
-                    //                 placeholder="Enter sibling's name"
-                    //                 value={formData.relatedToName}
-                    //                 onChange={handleChange}
-                    //                 required
-                    //             />
-                    //         </div>
-                    //     )
-                    // )
-                }
-            </div>
             <button type="submit"  >Submit</button>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
         </form>
     );
 }

@@ -1,13 +1,5 @@
 import User from "../model/User.js";
 import bcryptjs from "bcryptjs";
-import jwt from 'jsonwebtoken';
-
-// Helper function to generate a token
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '30d', // Token expires in 30 days
-    });
-};
 
 const postSignup = async (req, res) => {
     try {
@@ -17,7 +9,8 @@ const postSignup = async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required",
-            });
+                data: null
+            })
         }
 
         const existingUser = await User.findOne({ email });
@@ -26,33 +19,30 @@ const postSignup = async (req, res) => {
                 success: false,
                 message: "User already exists",
                 error: "Email already in use"
-            });
+            })
         }
 
         const hashpassword = await bcryptjs.hash(password, 10);
         const user = new User({ fullName, email, password: hashpassword });
 
-        const savedUser = await user.save();
-
-        // Respond with user data and a token upon successful registration
+        const saveduser = await user.save()
         res.status(201).json({
             success: true,
-            message: "User registered successfully!",
-            data: {
-                _id: savedUser._id,
-                fullName: savedUser.fullName,
-                email: savedUser.email,
-                token: generateToken(savedUser._id),
-            }
-        });
-    } catch (e) {
-        console.error(e.message);
+            message: "User registered successfully !",
+            data: saveduser
+        })
+    }
+    catch (e) {
+        console.log(e)
+        console.error(e.message)
         res.status(500).json({
             success: false,
             message: "An error occurred during registration.",
-        });
+            data: null
+        })
     }
-};
+
+}
 
 const postlogin = async (req, res) => {
     const { email, password } = req.body;
@@ -73,16 +63,11 @@ const postlogin = async (req, res) => {
             });
         }
 
-        // If login is successful, respond with user data and a new token
+        user.password = undefined;
         res.json({
             success: true,
-            message: "Login Successfully!",
-            data: {
-                _id: user._id,
-                fullName: user.fullName,
-                email: user.email,
-                token: generateToken(user._id), // The important part
-            }
+            message: "Login Successfully !",
+            data: user
         });
     } catch (e) {
         console.error(e);
@@ -96,4 +81,4 @@ const postlogin = async (req, res) => {
 export {
     postSignup,
     postlogin,
-};
+}

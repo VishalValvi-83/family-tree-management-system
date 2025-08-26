@@ -1,49 +1,48 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import axios from "axios"
-import "./AuthForm.css"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./AuthForm.css";
+import { toast } from "react-toastify";
 
 export default function SignupForm() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         fullName: "",
         email: "",
         password: "",
-    })
+    });
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_API_URL}/signup`,
+                `${process.env.REACT_APP_API_URL}/users/signup`,
                 formData
-            )
-            alert(response.data.message)
+            );
+
             if (response.data.success) {
-                setFormData({
-                    fullName: "",
-                    email: "",
-                    password: "",
-                })
-                navigate("/login")
+                toast.success(response.data.message);
+                setTimeout(() => {
+                    navigate("/login");
+                }, 1000);
             }
         } catch (error) {
-            console.error("Signup failed:", error)
+            console.error("Signup failed:", error);
             if (error.response) {
-                alert(error.response.data.message)
+                alert(error.response.data.message);
             } else {
-                alert("An error occurred during signup.")
+                alert("An error occurred during signup.");
             }
         }
-    }
+    };
 
     const handleChange = (e) => {
-        const { name, value } = e.target
+        const { name, value } = e.target;
         setFormData((prevState) => ({
             ...prevState,
             [name]: value,
-        }))
-    }
+        }));
+    };
 
     return (
         <div className="auth-container">
@@ -83,5 +82,5 @@ export default function SignupForm() {
                 </form>
             </div>
         </div>
-    )
+    );
 }

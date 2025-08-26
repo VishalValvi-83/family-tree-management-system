@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AuthForm.css";
+import { toast } from "react-toastify";
 
 export default function LoginForm() {
     const navigate = useNavigate();
@@ -22,20 +23,22 @@ export default function LoginForm() {
         e.preventDefault();
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_API_URL}/login`,
+                `${process.env.REACT_APP_API_URL}/user/login`,
                 formData
             );
-            alert(response.data.message);
-            localStorage.setItem("token", JSON.stringify(response.data.data));
             if (response.data.success) {
-                setFormData({
-                    email: "",
-                    password: "",
-                });
-                navigate("/");
+                toast.success(response.data.message);
+
+                localStorage.setItem("token", JSON.stringify(response.data.data));
+                setTimeout(() => {
+                    navigate("/");
+                }, 1000);
             }
         } catch (error) {
             console.error("Login failed:", error);
+            if (error.response.status === 404) {
+                navigate("/signup");
+            }
             if (error.response) {
                 alert(error.response.data.message);
             } else {

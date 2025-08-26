@@ -5,9 +5,6 @@ import './updateTree.css'
 import Header from '../Header/Header';
 import { toast, ToastContainer } from 'react-toastify'
 const UpdateTree = () => {
-
-    const { _id } = useParams();
-    // const [member, setMember] = useState({});
     const [formData, setFormData] = useState({
         name: '',
         age: '',
@@ -21,40 +18,47 @@ const UpdateTree = () => {
 
     // const [relationOfMember, setRelationOfMember] = useState('')
 
+    const { _id } = useParams();
+    const userId = JSON.parse(localStorage.getItem("token"))?._id;
 
-    const loadMember = async (_id) => {
-        if (!_id) {
-            console.error('Invalid ID')
-            return
-        }
-        try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-member/${_id}`)
-            const data = response.data.data
-            // setMember(data)
-            console.log(data)
-            const { name, age, dateOfBirth, gender } = data
-
-            let setRelation = '';
-
-            if (data.father || data.mother) {
-                setRelation = 'child';
-            } else if (data.children && data.children.length > 0) {
-                setRelation = data.gender === 'male' ? 'father' : 'mother';
-            } else {
-                setRelation = '';
+    useEffect(() => {
+        const loadMember = async (_id) => {
+            if (!_id) {
+                console.error('Invalid ID')
+                return
             }
-            setFormData({
-                name, age, dateOfBirth: new Date(dateOfBirth).toISOString().split('T')[0], gender,
-                relation: setRelation,
-                relatedToName: data.children?.[0]?.name || '',
-                relatedToFatherName: data?.father?.name || '',
-                relatedToMotherName: data?.mother?.name || ''
-            })
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/family/${_id}?userId=${userId}`,)
+                const data = response.data.data
+                // setMember(data)
+                console.log(data)
+                const { name, age, dateOfBirth, gender } = data
 
-        } catch (error) {
-            console.log(error)
+                let setRelation = '';
+
+                if (data.father || data.mother) {
+                    setRelation = 'child';
+                } else if (data.children && data.children.length > 0) {
+                    setRelation = data.gender === 'male' ? 'father' : 'mother';
+                } else {
+                    setRelation = '';
+                }
+                setFormData({
+                    name, age, dateOfBirth: new Date(dateOfBirth).toISOString().split('T')[0], gender,
+                    relation: setRelation,
+                    relatedToName: data.children?.[0]?.name || '',
+                    relatedToFatherName: data?.father?.name || '',
+                    relatedToMotherName: data?.mother?.name || ''
+                })
+
+            } catch (error) {
+                console.log(error)
+            }
         }
-    }
+        loadMember(_id)
+        // console.log(_id)
+        // console.log(userId)
+    }, [_id, userId]);
 
     const onValueChange = (e) => {
         const { name, value } = e.target;
@@ -63,36 +67,35 @@ const UpdateTree = () => {
             [name]: value
         }));
     };
+
     const updateData = async (e) => {
         e.preventDefault();
         if (_id) {
             try {
-                const response = await axios.patch(`${process.env.REACT_APP_API_URL}/update-member/${_id}`, formData)
-                console.log(response.data)
-                toast.success(response.data.message, {
-                    position: "top-center",
-                    autoClose: 2000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                })
+                const payload = { ...formData, userId };
+
+                const response = await axios.patch(
+                    `${process.env.REACT_APP_API_URL}/family/${_id}`,
+                    payload
+                );
+
+                toast.success(response.data.message, { position: "top-center" });
+
                 setTimeout(() => {
-                    toast.loading("Redirecting...")
+                    toast.loading("Redirecting...");
                 }, 3000);
+
                 setTimeout(() => {
-                    toast.dismiss()
-                    window.location.pathname = '/'
+                    toast.dismiss();
+                    window.location.pathname = "/";
                 }, 4000);
+
             } catch (error) {
-                console.log(error.message)
+                console.log(error.response?.data || error.message);
+                toast.error("Failed to update member");
             }
         }
-    }
-    useEffect(() => {
-        loadMember(_id)
-    }, [_id])
+    };
 
     function notify() {
         toast.info("Update canceled.")
@@ -167,7 +170,7 @@ const UpdateTree = () => {
                         <select
                             name="relation"
                             id="relation"
-                            value={formData.relation}
+                            defaultValue={formData.relation}
                             onChange={onValueChange}
                         >
                             <option value="" disabled>Select relation</option>
@@ -246,7 +249,7 @@ const UpdateTree = () => {
                     </div>
                     <div>
                         <button type="submit"  >Submit</button>
-                        <Link className='cancel-btn'  onClick={notify} >Cancel</Link>
+                        <Link className='cancel-btn' onClick={notify} >Cancel</Link>
                     </div>
                 </form>
             </div>

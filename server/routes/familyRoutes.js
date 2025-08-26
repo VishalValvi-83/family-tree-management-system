@@ -1,20 +1,15 @@
 import { Router } from 'express';
 const router = Router();
 
-import {
-    getFamilyTree,
-    addFamilyMember,
-    updateFamilyMember,
-    deleteFamilyMember
-} from '../controller/Family.js';
-import { protect } from '../middleware/authMiddleware.js';
+import { addFamilyMember, getFamilyMember, getAllFamilyMembers, deleteFamilyMember, updateFamilyMember } from '../controller/Family.js';
 
 router.route('/')
-    .get(protect, getFamilyTree)
-    .post(protect, addFamilyMember);
+    .get(getAllFamilyMembers)
+    .post(addFamilyMember);
 
-router.route('/:id')
-    .put(protect, updateFamilyMember)
-    .delete(protect, deleteFamilyMember);
+router.route('/:_id')
+    .get(getFamilyMember)
+    .patch(updateFamilyMember)
+    .delete(deleteFamilyMember);
 
 export default router;
