@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AuthForm.css";
 import { toast } from "react-toastify";
+import Header from "../../component/Header/Header";
 
 export default function LoginForm() {
     const navigate = useNavigate();
@@ -48,17 +49,21 @@ export default function LoginForm() {
     };
 
     return (
-        <div className="auth-container">
-            <div className="auth-card">
-                <h2 className="title">Login</h2>
-                <form className="form" onSubmit={handleSubmit}>
-                    <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-                    <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required minLength="6" />
-                    <button type="submit" className="btn">
-                        Login
-                    </button>
-                </form>
+        <>
+            <Header />
+            <div className="auth-container">
+                <div className="auth-card">
+                    <h2 className="title">Login</h2>
+                    <form className="form" onSubmit={handleSubmit}>
+                        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+                        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required minLength="6" />
+                        <button type="submit" className="btn">
+                            Login
+
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
