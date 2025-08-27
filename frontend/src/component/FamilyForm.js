@@ -14,9 +14,10 @@ function FamilyForm() {
         gender: '',
         relation: '',
         relatedTo: '',
+        userId: ''
     });
 
-    const getToken = () => localStorage.getItem('token');
+    const getToken = () => JSON.parse(localStorage.getItem('token'));
 
     useEffect(() => {
         const fetchMembers = async () => {
@@ -26,24 +27,17 @@ function FamilyForm() {
                     navigate('/login');
                     return;
                 }
+                const res = await axios.get(`${process.env.REACT_APP_API_URL}/family?userId=${token._id}`);
 
-                const res = await axios.get(`${process.env.REACT_APP_API_URL}/family`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (res.data && res.data.length > 0) {
-                    setMembers(res.data);
+                if (res.data.data && res.data.data.length > 0) {
+                    setMembers(res.data.data);
                 }
             } catch (err) {
                 console.error('Error fetching members:', err);
             }
         };
-
         fetchMembers();
     }, [navigate]);
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -71,14 +65,11 @@ function FamilyForm() {
                 gender: formData.gender,
                 relation: formData.relation,
                 relatedTo: formData.relatedTo,
+                userId: token._id
             };
-
+            console.log(payload)
             try {
-                const response = await axios.post(`${process.env.REACT_APP_API_URL}/family`, payload, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/family`, payload);
 
                 toast.success(response.data.message || "Member added successfully!");
                 navigate('/');
@@ -175,23 +166,24 @@ function FamilyForm() {
             </div>
 
             {formData.relation === 'child' && (
-                <div className="form-fields">
-                    <label htmlFor="relatedTo">Parent:</label>
-                    <select
-                        name="relatedTo"
-                        id="relatedTo"
-                        value={formData.relatedTo}
-                        onChange={handleChange}
-                    >
-                        <option value="" disabled>Select parent</option>
-                        {members.map(member => (
-                            <option key={member._id} value={member._id}>{member.name}</option>
-                        ))}
-                    </select>
-                </div>
+                (members?.map((member) => (
+
+                    <div className="form-fields">
+                        <label htmlFor="relatedToFatherName">Father's Name:</label>
+                        <input
+                            type="text"
+                            id="relatedToFatherName"
+                            name="relatedToFatherName"
+                            placeholder="Enter father's name"
+                            value={formData.relatedToFatherName}
+                            onChange={handleChange}
+                        // required
+                        />
+                    </div>
+                )))
             )}
 
-            <button type="submit"  >Submit</button>
+            <button type="submit">Submit</button>
         </form>
     );
 }
