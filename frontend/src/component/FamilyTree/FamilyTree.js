@@ -31,7 +31,7 @@ const FamilyTree = () => {
                 if (!res.data.data) {
                     setMembers(null);
                     setError(res.data.message)
-                    toast.error(res.data.message);
+                    toast.info(res.data.message);
                 }
             } catch (err) {
                 console.error('Error fetching family tree:', err);
@@ -178,8 +178,8 @@ const FamilyTree = () => {
                     :
                     (
                         <div className='error-404'>
-                            <h2>No Members !</h2>
                             <img src={AnimatedImg} alt='error-img' height={'250'} />
+                            <h2>No Members !</h2>
                             <p className='error'>{error}</p>
                         </div>
                     )

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import './updateTree.css'
 import Header from '../Header/Header';
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 const UpdateTree = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -251,7 +251,6 @@ const UpdateTree = () => {
                     </div>
                 </form>
             </div>
-            <ToastContainer />
         </>
     )
 }
