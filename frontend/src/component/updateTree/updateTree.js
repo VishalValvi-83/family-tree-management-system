@@ -16,8 +16,6 @@ const UpdateTree = () => {
         relatedToName: '',
     });
 
-    // const [relationOfMember, setRelationOfMember] = useState('')
-
     const { _id } = useParams();
     const userId = JSON.parse(localStorage.getItem("token"))?._id;
 

@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     },
     {
         path: '*',
-        element: <div>
+        element: <div className='container'>
             <h1>Page not found</h1>
             <button className='backward-link' onClick={() => window.location.href = '/'}>Go to Home</button>
         </div>

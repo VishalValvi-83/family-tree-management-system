@@ -81,7 +81,7 @@ function FamilyForm() {
                 });
 
                 toast.success(response.data.message || "Member added successfully!");
-                navigate('/'); // Navigate to the family tree view on success
+                navigate('/');
 
             } catch (error) {
                 console.error("Error adding family member:", error);

@@ -17,7 +17,6 @@ const FamilyTree = () => {
         const fetchFamilyTree = async () => {
             try {
                 const userId = JSON.parse(localStorage.getItem('token'))?._id;
-                console.log(userId)
                 if (!userId) {
                     setTimeout(() => {
                         toast.warning("User not logged in.");
@@ -48,7 +47,7 @@ const FamilyTree = () => {
     }, [navigate]);
 
     const handleDeleteMember = async (id) => {
-        const confirmToDelete = window.confirm("Are you sure you want to delete this Member")
+        const confirmToDelete = window.confirm("Are you sure! you want to delete this Member")
         if (confirmToDelete) {
             try {
                 const userId = JSON.parse(localStorage.getItem('token'))?._id
