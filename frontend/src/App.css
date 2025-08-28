@@ -3,9 +3,11 @@
 .container {
     display: grid;
     grid-template-columns: 2fr 2fr;
+    background: url("./assets/tree.png") no-repeat center center fixed;
+    background-size: 750px;
     gap: 50px;
     max-width: 90%;
-    margin: 18px auto;
+    margin: 0 auto;
     padding: 10px;
     padding-top: 50px;
     align-items: start;

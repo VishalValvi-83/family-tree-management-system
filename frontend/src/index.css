@@ -10,7 +10,7 @@
   --secondary-color: #f2f2f2;
   --form-background-color: #f9f6ed8f;
   --form-shadow: 0 4px 8px #00000033;
-  --form-input-color: #fabebe;
+  --form-input-color: #ffd1b5;
   --input-border: 2px solid #fabebe;
 }
 
@@ -18,10 +18,7 @@
 body {
   height: 100vh;
   width: 100%;
-  background: url("./assets/tree.png");
-  background-repeat: no-repeat;
-  background-size: 600px;
-  background-position: center;
+
 }
 
 @media screen and (max-width: 600px) {
