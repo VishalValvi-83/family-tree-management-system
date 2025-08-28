@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './updateTree.css'
-import Header from '../Header/Header';
+import Header from '../../component/Header/Header';
 import { toast } from 'react-toastify'
 const UpdateTree = () => {
     const [formData, setFormData] = useState({

@@ -30,6 +30,19 @@
 
 }
 
+button {
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    margin: 10px 5px;
+}
+
 .container button:hover {
     background: #ff4757;
 }
