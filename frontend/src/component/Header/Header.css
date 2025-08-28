@@ -2,11 +2,17 @@
 
 .header {
     text-align: center;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 10px 90px;
-    box-shadow: 0 0px 8px #fabebe;
+    background-color: #f9f6ed;
+    box-shadow: 0 0px 8px #faddbe;
 }
 
 .header-title img {

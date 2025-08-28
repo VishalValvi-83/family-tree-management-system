@@ -18,6 +18,15 @@ label {
     margin-bottom: 5px;
 }
 
+form button {
+    background: #2e7d32 !important;
+}
+
+form button:hover {
+    color: #f1f1f1;
+    background: #1b5e20 !important;
+}
+
 input[type="text"],
 input[type="number"],
 input[type="date"],
