@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import './updateTree.css'
 import Header from '../Header/Header';
 import { toast } from 'react-toastify'
@@ -247,7 +247,7 @@ const UpdateTree = () => {
                     </div>
                     <div>
                         <button type="submit"  >Submit</button>
-                        <Link className='cancel-btn' onClick={notify} >Cancel</Link>
+                        <button className='cancel-btn' onClick={notify} >Cancel</button>
                     </div>
                 </form>
             </div>
