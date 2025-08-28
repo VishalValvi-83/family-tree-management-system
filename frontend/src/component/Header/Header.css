@@ -30,8 +30,6 @@
     font-family: "Carattere", cursive;
     font-weight: 400;
     font-size: 15px;
-    margin-top: -20px;
-    /* padding-left: 50px; */
     font-style: normal;
 }
 
@@ -57,7 +55,7 @@
     cursor: pointer;
     font-size: 16px;
     margin-top: 20px;
-    width: 140px;
+    width: 100%;
     transition: background-color 0.3s ease;
 }
 
@@ -75,7 +73,6 @@
 
 @media screen and (max-width: 768px) {
     .header {
-        flex-direction: column;
         align-items: center;
     }
 
@@ -89,8 +86,9 @@
         margin-bottom: 10px;
     }
 
-    .header-text {
-        margin-top: 0;
+    .header .header-text {
+        margin-top: -10px;
+        font-size: 12px;
         padding-left: 0;
     }
 
@@ -98,23 +96,33 @@
         margin-top: 10px;
     }
 
-    .header p {
+    .header .header-title p {
         font-size: 30px;
     }
 
-    .header-title img {
+    .header .header-title img {
         width: 40px;
         margin-top: -15px;
     }
 }
 
 @media screen and (max-width: 480px) {
-    .header p {
+    .header {
+        padding: 5px 10px;
+        align-items: center;
+    }
+
+    .header .header p {
         font-size: 24px;
     }
 
-    .header-title img {
+    .header .header-title img {
         width: 30px;
         margin-top: -10px;
+    }
+
+    .header .header-button {
+        margin-top: 0;
+        max-width: 100px;
     }
 }
