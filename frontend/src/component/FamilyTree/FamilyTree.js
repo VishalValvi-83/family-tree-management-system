@@ -56,7 +56,7 @@ const FamilyTree = () => {
                     return;
                 }
                 const res = await axios.delete(
-                    `${process.env.REACT_APP_API_URL}/delete-member/${id}`,
+                    `${process.env.REACT_APP_API_URL}/family/${id}`,
                     {
                         data: { userId }
                     }

@@ -38,7 +38,7 @@ export const addFamilyMember = async (req, res) => {
             })
         }
 
-        const validRelationTypes = ['child', 'parent', 'sibling'];
+        const validRelationTypes = ['child', 'father', 'mother', 'sibling'];
         if (!validRelationTypes.includes(req.body.relation)) {
             return res.status(400).json({ message: 'Invalid relation type' });
         }

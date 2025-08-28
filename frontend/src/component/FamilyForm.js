@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './FamilyForm.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -6,39 +6,56 @@ import { useNavigate } from 'react-router-dom';
 
 function FamilyForm() {
     const navigate = useNavigate();
-    const [members, setMembers] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         age: '',
         dateOfBirth: '',
         gender: '',
         relation: '',
-        relatedTo: '',
+        relatedToName: '',
+        relatedToFatherName: '',
+        relatedToMotherName: '',
         userId: ''
     });
 
     const getToken = () => JSON.parse(localStorage.getItem('token'));
 
     useEffect(() => {
-        const fetchMembers = async () => {
-            try {
-                const token = getToken();
-                if (!token) {
-                    navigate('/login');
-                    return;
-                }
-                const res = await axios.get(`${process.env.REACT_APP_API_URL}/family?userId=${token._id}`);
+        const token = getToken();
+        if (!token) {
+            return navigate('/login');
+        }
+        setFormData(prevState => ({
+            ...prevState,
+            userId: token?._id
+        }));
 
-                if (res.data.data && res.data.data.length > 0) {
-                    setMembers(res.data.data);
-                }
-            } catch (err) {
-                console.error('Error fetching members:', err);
-            }
-        };
-        fetchMembers();
     }, [navigate]);
+    // useEffect(() => {
+    //     const fetchMembers = async () => {
+    //         try {
+    //             const token = getToken();
+    //             if (!token) {
+    //                 navigate('/login');
+    //                 return;
+    //             } else {
+    //                 setFormData(prevState => ({
+    //                     ...prevState,
+    //                     userId: token?._id
+    //                 }));
+    //             }
+    //             const res = await axios.get(`${process.env.REACT_APP_API_URL}/family?userId=${token?._id}`);
 
+    //             if (res.data.data && res.data.data.length > 0) {
+    //                 setMembers(res.data.data);
+    //             }
+    //         } catch (err) {
+    //             console.error('Error fetching members:', err);
+    //         }
+    //     };
+    //     fetchMembers();
+    // }, [navigate]);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -51,28 +68,39 @@ function FamilyForm() {
         e.preventDefault();
 
         const addFamilyMember = async () => {
-            const token = getToken();
-            if (!token) {
-                toast.error("You must be logged in to add a family member.");
-                navigate('/login');
-                return;
-            }
-
+            setIsLoading(true)
             let payload = {
-                name: formData.name,
-                age: formData.age,
-                dateOfBirth: formData.dateOfBirth,
-                gender: formData.gender,
-                relation: formData.relation,
-                relatedTo: formData.relatedTo,
-                userId: token._id
+                ...formData,
             };
+
+            if (formData.relation === 'child') {
+                payload.relatedToName = '';
+            } else {
+                payload.relatedToFatherName = '';
+                payload.relatedToMotherName = '';
+            }
             console.log(payload)
             try {
                 const response = await axios.post(`${process.env.REACT_APP_API_URL}/family`, payload);
-
-                toast.success(response.data.message || "Member added successfully!");
-                navigate('/');
+                toast.success(response.data.message || "Member added successfully!",
+                    {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    }
+                );
+                setTimeout(() => {
+                    toast.loading("Updating Family tree...");
+                }, 1500);
+                setTimeout(() => {
+                    toast.dismiss();
+                    window.location.reload();
+                }, 2000);
 
             } catch (error) {
                 console.error("Error adding family member:", error);
@@ -86,6 +114,8 @@ function FamilyForm() {
                 } else {
                     toast.error("An error occurred while adding the member.");
                 }
+            } finally {
+                setIsLoading(false)
             }
         };
 
@@ -165,25 +195,74 @@ function FamilyForm() {
                 </select>
             </div>
 
-            {formData.relation === 'child' && (
-                (members?.map((member) => (
+            <div className="form-fields">
+                {
+                    (formData.relation === 'child' && (
+                        <>
+                            <div className="form-fields">
+                                <label htmlFor="relatedToFatherName">Father's Name:</label>
+                                <input
+                                    type="text"
+                                    id="relatedToFatherName"
+                                    name="relatedToFatherName"
+                                    placeholder="Enter father's name"
+                                    value={formData.relatedToFatherName}
+                                    onChange={handleChange}
+                                // required
+                                />
+                            </div>
 
-                    <div className="form-fields">
-                        <label htmlFor="relatedToFatherName">Father's Name:</label>
-                        <input
-                            type="text"
-                            id="relatedToFatherName"
-                            name="relatedToFatherName"
-                            placeholder="Enter father's name"
-                            value={formData.relatedToFatherName}
-                            onChange={handleChange}
-                        // required
-                        />
-                    </div>
-                )))
-            )}
+                            <div className="form-fields">
+                                <label htmlFor="relatedToMotherName">Mother's Name:</label>
+                                <input
+                                    type="text"
+                                    id="relatedToMotherName"
+                                    name="relatedToMotherName"
+                                    placeholder="Enter mother's name"
+                                    value={formData.relatedToMotherName}
+                                    onChange={handleChange}
+                                // required
+                                />
+                            </div>
+                        </>
+                    ))
+                    || (
+                        (formData.relation === 'mother' || formData.relation === 'father') && (
+                            <div>
+                                <label htmlFor="relatedToName">Child's Name:</label>
+                                <input
+                                    type="text"
+                                    id="relatedToName"
+                                    name="relatedToName"
+                                    placeholder="Enter child's name"
+                                    value={formData.relatedToName}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                        )
+                    )
 
-            <button type="submit">Submit</button>
+                    || (
+                        formData.relation === 'sibling' && (
+                            <div>
+                                <label htmlFor="relatedToName">Sibling's Name:</label>
+                                <input
+                                    type="text"
+                                    id="relatedToName"
+                                    name="relatedToName"
+                                    placeholder="Enter sibling's name"
+                                    value={formData.relatedToName}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                        )
+                    )
+                }
+            </div>
+
+            <button type="submit">{isLoading ? 'Adding...' : 'Add Member'}</button>
         </form>
     );
 }
