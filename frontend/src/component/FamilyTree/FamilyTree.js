@@ -129,7 +129,7 @@ const FamilyTree = () => {
                             <div className="relationship-section">
                                 <h4>Children</h4>
                                 <div className="relationship-list">
-                                    {member.children.map((childId) => {
+                                    {(member.children ?? []).map((childId) => {
                                         const child = getMemberById(childId);
                                         return (
                                             child && (
@@ -148,7 +148,7 @@ const FamilyTree = () => {
                             <div className="relationship-section">
                                 <h4>Siblings</h4>
                                 <div className="relationship-list">
-                                    {member.siblings.map((sibId) => {
+                                    {(member.siblings ?? []).map((sibId) => {
                                         const sibling = getMemberById(sibId);
                                         return sibling ? (
                                             <div key={sibling._id}>

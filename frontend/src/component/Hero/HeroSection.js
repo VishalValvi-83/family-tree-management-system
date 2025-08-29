@@ -1,6 +1,7 @@
 import React from "react";
 import "./HeroSection.css";
 import HeroImg from './../../assets/FamilyTreeImg.png'
+// import { Link } from "react-router-dom";
 const HeroSection = () => {
     return (
         <section className="hero">
@@ -13,7 +14,7 @@ const HeroSection = () => {
                         Connect generations, preserve memories, and manage your family
                         history beautifully in one place.
                     </p>
-                    <button className="hero-btn">Start Building</button>
+                    <a href={'#addFamilyMemberForm'} className="hero-btn">Start Building</a>
                 </div>
                 <div className="hero-image">
                     <img

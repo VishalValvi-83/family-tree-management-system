@@ -123,7 +123,7 @@ function FamilyForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form id='addFamilyMemberForm' onSubmit={handleSubmit}>
             <div className="form-fields">
                 <label htmlFor="name">Member's Name:</label>
                 <input
