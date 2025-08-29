@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 85vh;
 }
 
 .auth-card {
@@ -36,6 +36,19 @@
     outline: none;
     background: var(--form-input-color);
     font-size: 15px;
+}
+.auth-link{
+    text-align: center;
+    margin-top: 15px;
+    font-size: 15px;
+    color: var(--primary-color);}
+.auth-link a{
+    color: red;
+    cursor: pointer;
+    text-decoration: none;
+}
+.auth-link a:hover{
+    text-decoration: underline;
 }
 
 @media (max-width: 500px) {

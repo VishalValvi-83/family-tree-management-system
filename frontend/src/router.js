@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
-import UpdateTree from './component/updateTree/updateTree.js';
+import UpdateTree from './pages/updateTree/updateTree.js';
 import LoginForm from './pages/Auth/Login.js';
 import SignupForm from './pages/Auth/SignUp.js';
 

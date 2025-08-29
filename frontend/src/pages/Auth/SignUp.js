@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AuthForm.css";
 import { toast } from "react-toastify";
@@ -80,6 +80,9 @@ export default function SignupForm() {
                         Signup
                     </button>
                 </form>
+                <div className="auth-link">
+                    <p>Already have an account? <Link to={"/login"}>Login</Link></p>
+                </div>
             </div>
         </div>
     );

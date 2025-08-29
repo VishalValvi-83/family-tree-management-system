@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AuthForm.css";
 import { toast } from "react-toastify";
-import Header from "../../component/Header/Header";
 
 export default function LoginForm() {
     const navigate = useNavigate();
@@ -50,7 +49,7 @@ export default function LoginForm() {
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <div className="auth-container">
                 <div className="auth-card">
                     <h2 className="title">Login</h2>
@@ -59,9 +58,11 @@ export default function LoginForm() {
                         <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required minLength="6" />
                         <button type="submit" className="btn">
                             Login
-
                         </button>
                     </form>
+                    <div className="auth-link">
+                        <p>Don't have an account? <Link to={"/signup"}>Sign up</Link></p>
+                    </div>
                 </div>
             </div>
         </>
