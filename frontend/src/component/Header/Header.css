@@ -10,16 +10,15 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 10px 90px;
+    padding: 1px 90px;
     background-color: #f9f6ed;
     box-shadow: 0 0px 8px #faddbe;
 }
 
-.header-title img {
-    width: 50px;
+.header-logo img {
+    width: 250px;
     height: auto;
     vertical-align: middle;
-    margin-top: -20px;
     margin-right: 5px;
 }
 
