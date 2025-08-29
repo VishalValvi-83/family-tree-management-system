@@ -5,6 +5,7 @@ import "./AuthForm.css";
 import { toast } from "react-toastify";
 
 export default function SignupForm() {
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         fullName: "",
@@ -13,10 +14,11 @@ export default function SignupForm() {
     });
 
     const handleSubmit = async (e) => {
+        setIsLoading(true);
         e.preventDefault();
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_API_URL}/users/signup`,
+                `${process.env.REACT_APP_API_URL}/user/signup`,
                 formData
             );
 
@@ -33,6 +35,8 @@ export default function SignupForm() {
             } else {
                 alert("An error occurred during signup.");
             }
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -77,7 +81,7 @@ export default function SignupForm() {
                         minLength="6"
                     />
                     <button type="submit" className="btn">
-                        Signup
+                        {isLoading ? "Loading..." : "Signup"}
                     </button>
                 </form>
                 <div className="auth-link">

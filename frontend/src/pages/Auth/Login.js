@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 export default function LoginForm() {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -20,6 +21,7 @@ export default function LoginForm() {
     };
 
     const handleSubmit = async (e) => {
+        setIsLoading(true);
         e.preventDefault();
         try {
             const response = await axios.post(
@@ -28,7 +30,6 @@ export default function LoginForm() {
             );
             if (response.data.success) {
                 toast.success(response.data.message);
-
                 localStorage.setItem("token", JSON.stringify(response.data.data));
                 setTimeout(() => {
                     navigate("/");
@@ -44,6 +45,8 @@ export default function LoginForm() {
             } else {
                 alert("An error occurred during login.");
             }
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -57,7 +60,7 @@ export default function LoginForm() {
                         <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
                         <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required minLength="6" />
                         <button type="submit" className="btn">
-                            Login
+                            {isLoading ? "Loading..." : "Login"}
                         </button>
                     </form>
                     <div className="auth-link">
