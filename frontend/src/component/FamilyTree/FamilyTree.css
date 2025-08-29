@@ -1,5 +1,6 @@
 .family-tree-box {
     padding: 10px;
+    height: 500px;
     border-radius: 10px;
     color: black;
     transition: height 0.3s ease;
@@ -47,6 +48,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    overflow: auto;
+    height: 100%;
     align-items: center;
     padding: 8px;
     border-radius: 12px;
@@ -159,8 +162,8 @@
     position: absolute;
     background: transparent;
     transition: all 0.2s ease;
-    right: 10px;
-    bottom: 10px;
+    right: 0px;
+    bottom: 5px;
     width: 25px;
     height: 25px;
     padding: 4px;

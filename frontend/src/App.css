@@ -8,8 +8,7 @@
     gap: 50px;
     max-width: 90%;
     margin: 0 auto;
-    padding: 10px;
-    padding-top: 50px;
+    padding: 50px 10px;
     align-items: start;
     height: 100%;
     transition: height 0.3s cubic-bezier(0.84, 0.29, 1, 1);
