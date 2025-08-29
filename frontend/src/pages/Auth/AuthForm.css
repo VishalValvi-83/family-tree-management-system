@@ -2,7 +2,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 85vh;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    background-repeat: no-repeat;
+    background-clip: border-box;
 }
 
 .auth-card {
@@ -37,17 +40,21 @@
     background: var(--form-input-color);
     font-size: 15px;
 }
-.auth-link{
+
+.auth-link {
     text-align: center;
     margin-top: 15px;
     font-size: 15px;
-    color: var(--primary-color);}
-.auth-link a{
+    color: var(--primary-color);
+}
+
+.auth-link a {
     color: red;
     cursor: pointer;
     text-decoration: none;
 }
-.auth-link a:hover{
+
+.auth-link a:hover {
     text-decoration: underline;
 }
 
