@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { RouterProvider } from 'react-router-dom';
-import router from './router.js';
 import { ToastContainer } from 'react-toastify';
+import Router from './router.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -20,6 +19,6 @@ root.render(
       draggable
       pauseOnHover
       theme="light" />
-    <RouterProvider router={router} />
+    <Router />
   </React.StrictMode>
 );
