@@ -19,7 +19,7 @@ const FamilyTree = () => {
                 const userId = JSON.parse(localStorage.getItem('token'))?._id;
                 if (!userId) {
                     setTimeout(() => {
-                        toast.warning("User not logged in.");
+                        toast.warning("Please login first.");
                     }, 1000);
                     navigate('/login')
                     setLoading(false);
@@ -35,8 +35,8 @@ const FamilyTree = () => {
                 }
             } catch (err) {
                 console.error('Error fetching family tree:', err);
-                setError("Error fetching family tree.");
-                toast.error("Error fetching family tree.");
+                setError("Something went wrong.");
+                toast.error("Something went wrong.");
             } finally {
                 setLoading(false);
             }

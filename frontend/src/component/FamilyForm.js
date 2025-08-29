@@ -106,7 +106,7 @@ function FamilyForm() {
                 console.error("Error adding family member:", error);
                 if (error.response) {
                     if (error.response.status === 401) {
-                        toast.error("Your session has expired. Please log in again.");
+                        toast.error("Please log in again.");
                         navigate('/login');
                     } else {
                         toast.error(error.response.data.message || "An error occurred.");
