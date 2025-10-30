@@ -1,25 +1,43 @@
-# FamilyRoots - Family Tree Management System
+# FAMILY-TREE-MANAGEMENT-SYSTEM
 
-FamilyRoots is a full-stack web application that allows users to create, visualize, and manage their family trees. It provides a user-friendly interface to build and explore your family history.
+_Connect Generations, Preserve Legacy, Empower Families_
 
-## Features
+![GitHub top language](https://img.shields.io/github/languages/top/VishalValvi-83/family-tree-management-system)
+![Languages count](https://img.shields.io/github/languages/count/VishalValvi-83/family-tree-management-system)
 
-- **User Authentication:** Secure user registration and login system.
-- **Interactive Family Tree:** View your family tree in an interactive and easy-to-navigate format.
-- **Add Family Members:** Easily add new members to your family tree with relevant details.
-- **Update and Delete:** Modify or remove family members from your tree as needed.
-- **Responsive Design:** The application is designed to work on various screen sizes.
+**Built with the tools and technologies:**
 
-## Technologies Used
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express)
+![JSON](https://img.shields.io/badge/JSON-000000?style=for-the-badge&logo=json)
+![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown)
+![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm)
+![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose)
+![Dotenv](https://img.shields.io/badge/.ENV-ecd53f?style=for-the-badge&logo=dotenv)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript)
+![Nodemon](https://img.shields.io/badge/Nodemon-76D04B?style=for-the-badge&logo=nodemon)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios)
 
-- **Frontend:**
-  - React.js
-  - React Router
-  - CSS
-- **Backend:**
-  - Node.js
-  - Express.js
-  - MongoDB
+---
+
+## Overview
+
+**Family-Tree-Management-System** is an open-source platform that enables developers to create, manage, and visualize complex family histories with ease.  
+It combines a robust backend architecture with an interactive frontend, providing a full-stack solution for family tree applications.
+
+### Why family-tree-management-system?
+
+This project simplifies the complexities of family data modeling and visualization, ensuring data consistency and security.  
+The core features include:
+
+- 🌿 **Data Modeling:** Defines core data structures for managing family members and relationships, supporting dynamic family hierarchies.  
+- 🔒 **Secure Authentication:** Implements user registration and login with JWT-based security, safeguarding sensitive family data.  
+- 🌐 **Interactive Visualization:** Provides a dynamic family tree interface for visualizing relationships and editing family structures in real-time.  
+- ⚙️ **API & Routing:** Offers RESTful API endpoints for CRUD operations, facilitating seamless backend communication.  
+- 🧙‍ **Modular Architecture:** Designed for scalability and easy integration, enabling developers to extend functionalities effortlessly.  
+
+---
 
 ## API Endpoints
 
